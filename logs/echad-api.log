@@ -1,0 +1,39 @@
+2026-01-27T16:59:21.986+09:00  INFO 75786 --- [restartedMain] kr.co.onmediagroup.EchadApiApplication   : Starting EchadApiApplication using Java 17.0.14 with PID 75786 (/Users/sehyeon.kim/project/echad/echad-api/build/classes/java/main started by sehyeon.kim in /Users/sehyeon.kim/project/echad/echad-api)
+2026-01-27T16:59:21.987+09:00  INFO 75786 --- [restartedMain] kr.co.onmediagroup.EchadApiApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-01-27T16:59:22.004+09:00  INFO 75786 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-27T16:59:22.005+09:00  INFO 75786 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-27T16:59:22.239+09:00  INFO 75786 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-27T16:59:22.240+09:00  INFO 75786 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-27T16:59:22.247+09:00  INFO 75786 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2026-01-27T16:59:22.254+09:00  INFO 75786 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-27T16:59:22.255+09:00  INFO 75786 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-27T16:59:22.258+09:00  INFO 75786 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-27T16:59:22.525+09:00  INFO 75786 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2026-01-27T16:59:22.529+09:00  INFO 75786 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-27T16:59:22.529+09:00  INFO 75786 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.15]
+2026-01-27T16:59:22.551+09:00  INFO 75786 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-01-27T16:59:22.551+09:00  INFO 75786 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 546 ms
+2026-01-27T16:59:22.596+09:00  INFO 75786 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-27T16:59:22.742+09:00  INFO 75786 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5c960950
+2026-01-27T16:59:22.742+09:00  INFO 75786 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-27T16:59:22.758+09:00  INFO 75786 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-27T16:59:22.778+09:00  INFO 75786 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2026-01-27T16:59:22.779+09:00  INFO 75786 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2026-01-27T16:59:22.877+09:00  INFO 75786 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-27T16:59:23.022+09:00  INFO 75786 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-27T16:59:23.024+09:00  INFO 75786 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-27T16:59:23.130+09:00  WARN 75786 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2026-01-27T16:59:23.164+09:00  WARN 75786 --- [restartedMain] i.n.r.d.DnsServerAddressStreamProviders  : Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+2026-01-27T16:59:23.291+09:00  WARN 75786 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 43a06604-c0e6-4816-94e4-caf2cad260c8
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-01-27T16:59:23.328+09:00  INFO 75786 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@12862290, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@167e8236, org.springframework.security.web.context.SecurityContextHolderFilter@18c21ea5, org.springframework.security.web.header.HeaderWriterFilter@3e929996, org.springframework.security.web.csrf.CsrfFilter@be175ca, org.springframework.security.web.authentication.logout.LogoutFilter@1d30be66, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@679c9d65, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@27e895e2, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@1f31464d, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@4c091ea8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@dd647, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3900d85c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4c4ccea2, org.springframework.security.web.access.ExceptionTranslationFilter@10680df1, org.springframework.security.web.access.intercept.AuthorizationFilter@4164b2ae]
+2026-01-27T16:59:23.340+09:00  INFO 75786 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-27T16:59:23.349+09:00  INFO 75786 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/api'
+2026-01-27T16:59:23.353+09:00  INFO 75786 --- [restartedMain] kr.co.onmediagroup.EchadApiApplication   : Started EchadApiApplication in 1.506 seconds (process running for 1.684)
+2026-01-27T16:59:26.361+09:00  INFO 75786 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-27T16:59:26.363+09:00  INFO 75786 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-27T16:59:26.368+09:00  INFO 75786 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
