@@ -1,6 +1,7 @@
 package kr.co.onmediagroup.controllerAdvice;
 
 import kr.co.onmediagroup.exception.AuthException;
+import kr.co.onmediagroup.exception.ForbiddenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -21,5 +22,10 @@ public class AuthControllerAdvice extends BaseControllerAdvice {
   @ExceptionHandler({AuthException.UnauthorizedMe.class})
   public ProblemDetail handleUnauthorizedException(AuthException.UnauthorizedMe ex) {
     return this.exceptionResponse(HttpStatus.UNAUTHORIZED, ex);
+  }
+
+  @ExceptionHandler({ForbiddenException.class})
+  public ProblemDetail handleForbiddenException(ForbiddenException ex) {
+    return this.exceptionResponse(HttpStatus.FORBIDDEN, ex);
   }
 }
