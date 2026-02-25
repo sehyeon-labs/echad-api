@@ -50,7 +50,7 @@ public class SecurityConfig {
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       // 권한 설정
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/auth/**").permitAll()
+        .requestMatchers("/**").permitAll()
         .anyRequest().authenticated()
       )
       // 인증 실패 시 예외 처리
