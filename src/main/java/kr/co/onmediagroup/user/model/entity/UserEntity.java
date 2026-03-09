@@ -81,4 +81,12 @@ public class UserEntity {
     }
     return this;
   }
+
+  // 유저 정보 업데이트
+  public UserEntity update(User.UserUpdateReq req) {
+    this.userEmail = req.userEmail();
+    this.phoneNumber = req.phoneNumber();
+    this.phoneVerifiedYn = req.phoneVerifiedYn();
+    return this;
+  }
 }

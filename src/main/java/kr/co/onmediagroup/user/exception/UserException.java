@@ -6,4 +6,8 @@ public class UserException extends RuntimeException{
   public static class AlreadyExistUserId extends UserException{
     public AlreadyExistUserId() { super("already exist user id"); }
   }
+
+  public static class UserNotFound extends UserException{
+    public UserNotFound() { super("user not found"); }
+  }
 }

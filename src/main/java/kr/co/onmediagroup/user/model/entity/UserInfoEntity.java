@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import kr.co.onmediagroup.user.model.dto.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -54,4 +55,12 @@ public class UserInfoEntity {
   @Column(name = "updated_at")
   @LastModifiedDate
   private LocalDateTime updatedAt;
+
+  // 유저 정보 업데이트
+  public UserInfoEntity update(User.UserUpdateReq req) {
+    this.groomName = req.groomName();
+    this.brideName = req.brideName();
+    this.weddingDate = req.weddingDate();
+    return this;
+  }
 }

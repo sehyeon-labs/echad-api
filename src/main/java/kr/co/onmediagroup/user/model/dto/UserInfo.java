@@ -24,6 +24,17 @@ public class UserInfo {
   @Data
   @AllArgsConstructor
   @NoArgsConstructor
+  public static class UserInfoMeRes {
+    private String infoId;
+    private String groomName;
+    private String brideName;
+    private LocalDateTime weddingDate;
+  }
+
+  @Builder
+  @Data
+  @AllArgsConstructor
+  @NoArgsConstructor
   public static class UserInfoName{
     private String groomName;
     private String brideName;

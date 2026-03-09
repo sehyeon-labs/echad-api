@@ -116,6 +116,32 @@ public class User {
   ){
   }
 
+  @Builder
+  @Data
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public static class UserMeRes {
+    private String userId;
+    private String userEmail;
+    private String phoneNumber;
+    private VerifiedYn phoneVerifiedYn;
+    private Level userLevel;
+    private ActiveYn activeYn;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private UserInfo.UserInfoMeRes userInfo;
+  }
+
+  public record UserUpdateReq(
+    @NotBlank @Size(max = 255) String userEmail,
+    String phoneNumber,
+    VerifiedYn phoneVerifiedYn,
+    @NotBlank @Size(max = 100) String groomName,
+    @NotBlank @Size(max = 100) String brideName,
+    @NotNull LocalDateTime weddingDate
+  ){
+  }
+
 
   /**
    * JWT 사용자 정보 DTO
