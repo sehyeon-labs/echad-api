@@ -26,6 +26,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserInfoRepository userInfoRepository;
 
+  // 유저 목록 조회
   public Page<User.UserMeRes> getUsers(Pageable pageable) {
     Page<UserEntity> userEntities = userRepository.findAll(pageable);
 
@@ -33,11 +34,13 @@ public class UserService {
       throw new UserException.UserNotFound();
     }
 
-    Page<User.UserMeRes> userMeRes = userEntities.map(userEntity -> MODEL_MAPPER.map(userEntity, User.UserMeRes.class));
+    Page<User.UserMeRes> userMeRes = userEntities.map(
+      userEntity -> MODEL_MAPPER.map(userEntity, User.UserMeRes.class));
 
     return userMeRes;
   }
 
+  // 자기 자신 정보 조회
   public User.UserMeRes getMe(String userId) {
     UserEntity userEntity = userRepository.findById(userId)
       .orElseThrow(UserException.UserNotFound::new);
@@ -54,6 +57,7 @@ public class UserService {
     return userMeRes;
   }
 
+  // 자기 자신 정보 수정
   public void updateMe(
     String userId,
     String userEmail,
@@ -92,6 +96,5 @@ public class UserService {
 
       userInfoRepository.save(userInfoEntity);
     }
-
   }
 }

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +23,10 @@ public class UserController {
   public User.UserMeRes getMe(
     @AuthenticationPrincipal User.UserPrincipal principal
   ) {
-    User.UserMeRes userMeRes = userService.getMe(principal.getUserId());
+    String userId = principal.getUserId();
+
+    User.UserMeRes userMeRes = userService.getMe(userId);
+
     return userMeRes;
   }
 

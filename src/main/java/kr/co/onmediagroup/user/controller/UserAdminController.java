@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/admin/user")
 public class UserAdminController {
+  private final UserService userService;
 
-    private final UserService userService;
+  @GetMapping("")
+  @CheckAdminUser
+  @Description("관리자용 사용자 목록 조회")
+  public Page<User.UserMeRes> getUsers(
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size
+  ) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+    return userService.getUsers(pageable);
+  }
 
-    @GetMapping("")
-    @CheckAdminUser
-    @Description("관리자용 사용자 목록 조회")
-    public Page<User.UserMeRes> getUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        return userService.getUsers(pageable);
-    }
 }
