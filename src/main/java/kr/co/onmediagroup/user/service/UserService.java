@@ -26,7 +26,6 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserInfoRepository userInfoRepository;
 
-  @Transactional(readOnly = true)
   public Page<User.UserMeRes> getUsers(Pageable pageable) {
     Page<UserEntity> userEntities = userRepository.findAll(pageable);
 
@@ -34,7 +33,9 @@ public class UserService {
       throw new UserException.UserNotFound();
     }
 
-    return userEntities.map(userEntity -> MODEL_MAPPER.map(userEntity, User.UserMeRes.class));
+    Page<User.UserMeRes> userMeRes = userEntities.map(userEntity -> MODEL_MAPPER.map(userEntity, User.UserMeRes.class));
+
+    return userMeRes;
   }
 
   public User.UserMeRes getMe(String userId) {

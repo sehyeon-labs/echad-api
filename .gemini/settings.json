@@ -1,0 +1,13 @@
+{
+  "extensions": {
+    "use": [
+      "coding-agent-on"
+    ]
+  },
+  "mcp": {
+    "allowed": [
+      "github",
+      "atlassian"
+    ]
+  }
+}

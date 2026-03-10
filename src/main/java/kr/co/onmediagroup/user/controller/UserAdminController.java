@@ -1,6 +1,7 @@
 package kr.co.onmediagroup.user.controller;
 
 import kr.co.onmediagroup.config.annotation.CheckAdminUser;
+import kr.co.onmediagroup.config.annotation.Description;
 import kr.co.onmediagroup.user.model.dto.User;
 import kr.co.onmediagroup.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserAdminController {
 
     @GetMapping("")
     @CheckAdminUser
+    @Description("관리자용 사용자 목록 조회")
     public Page<User.UserMeRes> getUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
