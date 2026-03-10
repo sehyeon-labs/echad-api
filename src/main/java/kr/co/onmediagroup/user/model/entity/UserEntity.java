@@ -2,7 +2,6 @@ package kr.co.onmediagroup.user.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import kr.co.onmediagroup.user.model.dto.User;
 import lombok.*;
@@ -30,30 +29,36 @@ public class UserEntity {
   @Column(name = "user_password")
   private String userPassword;
 
+  @Setter
   @NotBlank
   @Size(max = 255)
   @Column(name = "user_email")
   private String userEmail;
 
+  @Setter
   @Size(max = 20)
   @Column(name = "phone_number")
   private String phoneNumber;
 
+  @Setter
   @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(name = "phone_verified_yn")
   private User.VerifiedYn phoneVerifiedYn = User.VerifiedYn.N;
 
+  @Setter
   @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(name = "user_level")
   private User.Level userLevel = User.Level.USER;
 
+  @Setter
   @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(name = "active_yn")
   private User.ActiveYn activeYn = User.ActiveYn.Y;
 
+  @Setter
   @Builder.Default
   @Column(name = "login_fail_count")
   private Integer loginFailCount = 0;
@@ -79,14 +84,6 @@ public class UserEntity {
     if (loginFailCount >= maxFailedLoginCount) {
       this.activeYn = User.ActiveYn.N;
     }
-    return this;
-  }
-
-  // 유저 정보 업데이트
-  public UserEntity update(User.UserUpdateReq req) {
-    this.userEmail = req.userEmail();
-    this.phoneNumber = req.phoneNumber();
-    this.phoneVerifiedYn = req.phoneVerifiedYn();
     return this;
   }
 }
