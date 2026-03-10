@@ -18,15 +18,8 @@ import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
-
   private final UserRepository userRepository;
 
-  /**
-   * 유저 전체 목록 조회 (페이징)
-   *
-   * @param pageable 페이징 및 정렬 정보
-   * @return 페이징된 유저 목록
-   */
   public Page<User.UserModel> findAll(Pageable pageable) {
     Page<UserEntity> entityPage = this.userRepository.findAll(pageable);
 
@@ -34,6 +27,8 @@ public class UserService {
       throw new UserException.UserNotFound();
     }
 
-    return entityPage.map(entity -> MODEL_MAPPER.map(entity, User.UserModel.class));
+    Page<User.UserModel> modelPage = entityPage.map(entity -> MODEL_MAPPER.map(entity, User.UserModel.class));
+
+    return modelPage;
   }
 }
