@@ -22,9 +22,9 @@ import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
 public class TemplateService {
   private final TemplateRepository templateRepository;
 
-  public List<Template.TemplateResponse> findActiveTempalte() {
+  public List<Template.TemplateResponse> findActiveTemplates() {
     List<TemplateEntity> entityList = this.templateRepository
-      .findByActiveYnOrderBySortOrderDesc(Template.ActiveYn.Y);
+      .findByActiveYnAndDeletedAtIsNullOrderBySortOrderDesc(Template.ActiveYn.Y);
 
     if (entityList.isEmpty()) {
       throw new TemplateException.NoTemplate();

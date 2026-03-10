@@ -36,6 +36,7 @@ public class Template {
     private Integer schemaVersion;
     private Integer sortOrder;
     private ActiveYn activeYn;
+    private LocalDateTime deletedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
   }
@@ -50,6 +51,7 @@ public class Template {
     private Integer schemaVersion;
     private Integer sortOrder;
     private ActiveYn activeYn;
+    private LocalDateTime deletedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
   }

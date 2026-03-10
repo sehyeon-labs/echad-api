@@ -19,6 +19,6 @@ public class TemplateController {
   @GetMapping("")
   @ResponseStatus(HttpStatus.OK)
   public List<Template.TemplateResponse> findActiveTemplate() {
-    return this.templateService.findActiveTempalte();
+    return this.templateService.findActiveTemplates();
   }
 }

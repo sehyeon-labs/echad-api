@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TemplateRepository extends JpaRepository<TemplateEntity, Integer> {
 
-  List<TemplateEntity> findByActiveYnOrderBySortOrderDesc(Template.ActiveYn activeYn);
+  List<TemplateEntity> findByActiveYnAndDeletedAtIsNullOrderBySortOrderDesc(Template.ActiveYn activeYn);
 
   boolean existsByTitleAndSchemaVersion(String title, Integer schemaVersion);
 }

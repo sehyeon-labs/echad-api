@@ -58,6 +58,9 @@ public class TemplateEntity {
   @Column(name = "active_yn")
   private Template.ActiveYn activeYn = Template.ActiveYn.N;
 
+  @Column(name = "deleted_at")
+  private LocalDateTime deletedAt;
+
   @Column(name = "created_at")
   @CreatedDate
   private LocalDateTime createdAt;
