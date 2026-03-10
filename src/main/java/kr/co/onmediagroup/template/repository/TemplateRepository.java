@@ -10,5 +10,5 @@ public interface TemplateRepository extends JpaRepository<TemplateEntity, Intege
 
   List<TemplateEntity> findByActiveYnAndDeletedAtIsNullOrderBySortOrderDesc(Template.ActiveYn activeYn);
 
-  boolean existsByTitleAndSchemaVersion(String title, Integer schemaVersion);
+  boolean existsByTitleAndComponentAndComponentType(String title, Template.Component component, Integer componentType);
 }

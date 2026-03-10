@@ -15,9 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "template", indexes = {
-  @Index(name = "ux__title__version", columnList = "title, schema_version", unique = true)
-})
+@Table(name = "template")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class TemplateEntity {
@@ -32,6 +30,15 @@ public class TemplateEntity {
   @Column(name = "title")
   private String title;
 
+  @Builder.Default
+  @Enumerated(EnumType.STRING)
+  @Column(name = "component", nullable = false)
+  private Template.Component component = Template.Component.TEXT;
+
+  @Builder.Default
+  @Column(name = "component_type", nullable = false)
+  private Integer componentType = 1;
+
   @NotBlank
   @Size(max = 255)
   @Column(name = "preview_url")
@@ -44,10 +51,6 @@ public class TemplateEntity {
 
   @Column(name = "template_schema", columnDefinition = "json")
   private String templateSchema;
-
-  @Builder.Default
-  @Column(name = "schema_version")
-  private Integer schemaVersion = 1;
 
   @Builder.Default
   @Column(name = "sort_order")

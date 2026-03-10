@@ -26,10 +26,11 @@ CREATE TABLE user_info (
 CREATE TABLE template (
   template_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'PK',
   title VARCHAR(255) NOT NULL COMMENT '템플릿 제목',
-  preview_url VARCHAR(255) NOT NULL COMMENT '템플릿 미리보 URL',
+  component ENUM('HEADER', 'TEXT', 'BUTTON', 'IMG', 'CONTENT', 'LOCATION') NOT NULL DEFAULT 'TEXT' COMMENT '템플릿 요소',
+  component_type INT NOT NULL DEFAULT 1 COMMENT '템플릿 요소 타입',
+  preview_url VARCHAR(255) NOT NULL COMMENT '템플릿 미리보기 URL',
   is_premium CHAR(1) NOT NULL DEFAULT 'N' COMMENT '유료 여부',
   template_schema JSON NULL COMMENT '레이아웃, 기본 스타일 정의',
-  schema_version INT NOT NULL DEFAULT 1 COMMENT '스키마 버전',
   sort_order INT DEFAULT 0 NOT NULL COMMENT '노출 순서',
   active_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '활동상태',
   deleted_at DATETIME NULL DEFAULT NULL COMMENT '삭제 일시',
@@ -38,14 +39,14 @@ CREATE TABLE template (
 ) COMMENT='템플릿';
 
 CREATE TABLE `template_custom` (
-  `template_custom_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
-  `custom_id` VARCHAR(255) NOT NULL COMMENT '그룹 ID (템플릿 게시물 단위 식별자)',
-  `template_id` INT NOT NULL COMMENT '원본 템플릿 ID (FK)',
-  `sort_order` INT NOT NULL DEFAULT 0 COMMENT '정렬 순서 (0부터 시작)',
-  `custom_schema` JSON NULL COMMENT '사용자 커스텀 설정 (색상, 크기, 위치 등)',
-  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '논리 삭제 일시',
-  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
-  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
+  template_custom_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+  custom_id VARCHAR(255) NOT NULL COMMENT '그룹 ID (템플릿 게시물 단위 식별자)',
+  template_id INT NOT NULL COMMENT '원본 템플릿 ID (FK)',
+  sort_order INT NOT NULL DEFAULT 0 COMMENT '정렬 순서 (0부터 시작)',
+  custom_schema JSON NULL COMMENT '사용자 커스텀 설정 (색상, 크기, 위치 등)',
+  deleted_at DATETIME NULL DEFAULT NULL COMMENT '논리 삭제 일시',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
   INDEX idx__custom_id__sort_order (`custom_id`, `sort_order`) COMMENT '그룹 인덱스',
   INDEX idx__custom_id__deleted_at (`custom_id`, `deleted_at`) COMMENT '삭제 안된 항목들 그룹 인덱스'
 ) COMMENT='사용자 커스텀 템플릿 저장소';

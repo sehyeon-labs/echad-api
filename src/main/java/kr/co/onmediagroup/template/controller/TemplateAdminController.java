@@ -24,10 +24,12 @@ public class TemplateAdminController {
   ) {
     return this.templateService.create(
       templateReq.title(),
+      templateReq.component(),
+      templateReq.componentType(),
       templateReq.previewUrl(),
       templateReq.isPremium(),
       templateReq.templateSchema(),
-      templateReq.schemaVersion()
+      templateReq.sortOrder()
     );
   }
 }
