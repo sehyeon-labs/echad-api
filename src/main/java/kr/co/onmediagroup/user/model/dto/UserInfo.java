@@ -1,9 +1,6 @@
 package kr.co.onmediagroup.user.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +15,23 @@ public class UserInfo {
     private LocalDateTime weddingDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+  }
+
+  @Builder
+  @Data
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public static class UserInfoMeRes {
+    private String infoId;
+    private String groomName;
+    private String brideName;
+    private LocalDateTime weddingDate;
+  }
+
+  @Data
+  @EqualsAndHashCode(callSuper = true)
+  public static class UserInfoAndUserRes extends UserInfoMeRes {
+    private User.UserMeRes user;
   }
 
   @Builder

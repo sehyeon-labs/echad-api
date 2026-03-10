@@ -2,8 +2,8 @@ package kr.co.onmediagroup.user.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import kr.co.onmediagroup.user.model.dto.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -34,16 +34,19 @@ public class UserInfoEntity {
   @Column(name = "user_id")
   private String userId;
 
+  @Setter
   @NotBlank
   @Size(max = 100)
   @Column(name = "groom_name")
   private String groomName;
 
+  @Setter
   @NotBlank
   @Size(max = 100)
   @Column(name = "bride_name")
   private String brideName;
 
+  @Setter
   @Column(name = "wedding_date")
   private LocalDateTime weddingDate;
 
@@ -54,4 +57,9 @@ public class UserInfoEntity {
   @Column(name = "updated_at")
   @LastModifiedDate
   private LocalDateTime updatedAt;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+  private UserEntity user;
+
 }
