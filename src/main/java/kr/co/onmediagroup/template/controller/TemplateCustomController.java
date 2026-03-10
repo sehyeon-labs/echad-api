@@ -19,7 +19,7 @@ public class TemplateCustomController {
 
   @GetMapping("/{customId}")
   @ResponseStatus(HttpStatus.OK)
-  public List<TemplateCustom.Response> findByCustomId(@PathVariable String customId) {
+  public List<TemplateCustom.TemplateCustomRes> findByCustomId(@PathVariable String customId) {
     return this.templateCustomService.findByCustomId(customId);
   }
 }

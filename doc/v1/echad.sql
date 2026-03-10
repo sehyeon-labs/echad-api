@@ -33,19 +33,19 @@ CREATE TABLE template (
   sort_order INT DEFAULT 0 NOT NULL COMMENT '노출 순서',
   active_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '활동상태',
   deleted_at DATETIME NULL DEFAULT NULL COMMENT '삭제 일시',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시'
-  ) COMMENT='템플릿';
-  
-  CREATE TABLE `template_custom` (
-         `template_custom_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
-         `custom_id` VARCHAR(255) NOT NULL COMMENT '그룹 ID (템플릿 게시물 단위 식별자)',
-         `template_id` INT NOT NULL COMMENT '원본 템플릿 ID (FK)',
-         `sort_order` INT NOT NULL DEFAULT 0 COMMENT '정렬 순서 (0부터 시작)',
-         `custom_schema` JSON NULL COMMENT '사용자 커스텀 설정 (색상, 크기, 위치 등)',
-         `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '논리 삭제 일시',
-         `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
-         `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
-         INDEX idx__custom_id__sort_order (`custom_id`, `sort_order`) COMMENT '그룹 인덱스',
-         INDEX idx__custom_id__deleted_at (`custom_id`, `deleted_at`) COMMENT '삭제 안된 항목들 그룹 인덱스'
-   ) COMMENT='사용자 커스텀 템플릿 저장소';
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시'
+) COMMENT='템플릿';
+
+CREATE TABLE `template_custom` (
+  `template_custom_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+  `custom_id` VARCHAR(255) NOT NULL COMMENT '그룹 ID (템플릿 게시물 단위 식별자)',
+  `template_id` INT NOT NULL COMMENT '원본 템플릿 ID (FK)',
+  `sort_order` INT NOT NULL DEFAULT 0 COMMENT '정렬 순서 (0부터 시작)',
+  `custom_schema` JSON NULL COMMENT '사용자 커스텀 설정 (색상, 크기, 위치 등)',
+  `deleted_at` DATETIME NULL DEFAULT NULL COMMENT '논리 삭제 일시',
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
+  INDEX idx__custom_id__sort_order (`custom_id`, `sort_order`) COMMENT '그룹 인덱스',
+  INDEX idx__custom_id__deleted_at (`custom_id`, `deleted_at`) COMMENT '삭제 안된 항목들 그룹 인덱스'
+) COMMENT='사용자 커스텀 템플릿 저장소';

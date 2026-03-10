@@ -26,8 +26,11 @@ public class TemplateCustomEntity {
   @Column(name = "custom_id", nullable = false)
   private String customId;
 
+  @Column(name = "template_id", nullable = false)
+  private Integer templateId;
+
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "template_id", nullable = false, foreignKey = @ForeignKey(name = "fk__template_custom__template_id"))
+  @JoinColumn(name = "template_id", referencedColumnName = "template_id", insertable = false, updatable = false)
   private TemplateEntity template;
 
   @Builder.Default

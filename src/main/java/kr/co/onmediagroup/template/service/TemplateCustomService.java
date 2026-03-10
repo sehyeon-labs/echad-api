@@ -21,7 +21,7 @@ public class TemplateCustomService {
 
   private final TemplateCustomRepository templateCustomRepository;
 
-  public List<TemplateCustom.Response> findByCustomId(String customId) {
+  public List<TemplateCustom.TemplateCustomRes> findByCustomId(String customId) {
     List<TemplateCustomEntity> entityList = this.templateCustomRepository
       .findByCustomIdWithActiveTemplate(customId);
 
@@ -30,7 +30,7 @@ public class TemplateCustomService {
     }
 
     return entityList.stream()
-      .map(entity -> MODEL_MAPPER.map(entity, TemplateCustom.Response.class))
+      .map(entity -> MODEL_MAPPER.map(entity, TemplateCustom.TemplateCustomRes.class))
       .toList();
   }
 }
