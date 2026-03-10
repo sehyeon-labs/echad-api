@@ -1,13 +1,14 @@
 package kr.co.onmediagroup.template.model.entity;
 
 import jakarta.persistence.*;
-import kr.co.onmediagroup.template.model.dto.Template;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -50,4 +51,10 @@ public class TemplateCustomEntity {
   @Column(name = "updated_at")
   @LastModifiedDate
   private LocalDateTime updatedAt;
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY)
+  @OrderBy("sortOrder ASC")
+  @JoinColumn(name = "template_custom_id", referencedColumnName = "template_custom_id", insertable = false, updatable = false)
+  private List<TemplateCustomImageEntity> images = new ArrayList<>();
 }

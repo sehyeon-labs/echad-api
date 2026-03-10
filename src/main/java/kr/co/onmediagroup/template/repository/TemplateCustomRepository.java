@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface TemplateCustomRepository extends JpaRepository<TemplateCustomEntity, Integer> {
 
-  @Query("SELECT tc FROM TemplateCustomEntity tc " +
+  @Query("SELECT DISTINCT tc FROM TemplateCustomEntity tc " +
          "JOIN FETCH tc.template t " +
-         "WHERE tc.customId = :customId " +
+         "LEFT JOIN FETCH tc.images i " +
+         "WHERE tc.custom_id = :customId " +
          "AND tc.deletedAt IS NULL " +
          "AND t.activeYn = 'Y' " +
          "AND t.deletedAt IS NULL " +

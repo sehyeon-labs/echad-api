@@ -50,3 +50,13 @@ CREATE TABLE `template_custom` (
   INDEX idx__custom_id__sort_order (`custom_id`, `sort_order`) COMMENT '그룹 인덱스',
   INDEX idx__custom_id__deleted_at (`custom_id`, `deleted_at`) COMMENT '삭제 안된 항목들 그룹 인덱스'
 ) COMMENT='사용자 커스텀 템플릿 저장소';
+
+CREATE TABLE `template_custom_image` (
+  template_custom_image_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+  template_custom_id INT NOT NULL COMMENT '커스텀 템플릿 ID (FK)',
+  image_url VARCHAR(255) NOT NULL COMMENT '이미지 URL',
+  sort_order INT NOT NULL DEFAULT 0 COMMENT '정렬 순서 (0부터 시작)',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+  INDEX idx__template_custom_id__sort_order (`template_custom_id`, `sort_order`) COMMENT '커스텀 템플릿별 이미지 정렬 인덱스'
+) COMMENT='사용자 커스텀 템플릿별 이미지 리스트';
