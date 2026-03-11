@@ -124,11 +124,7 @@ public class AuthController {
     @Valid @RequestBody User.UserPasswordUpdateReq userPasswordUpdateReq
   ) {
 
-    if (principal == null) {
-      throw new AuthException.UnauthorizedMe();
-    }
-
-    String userId = principal.getUserId();
+    String userId = principal != null ? principal.getUserId() : null;
 
     this.authService.updatePassword(userId, userPasswordUpdateReq);
   }

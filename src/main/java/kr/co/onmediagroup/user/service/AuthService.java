@@ -1,6 +1,7 @@
 package kr.co.onmediagroup.user.service;
 
 import kr.co.onmediagroup.config.AuthConfig;
+import kr.co.onmediagroup.exception.AuthException;
 import kr.co.onmediagroup.user.exception.LoginException;
 import kr.co.onmediagroup.user.exception.UserException;
 import kr.co.onmediagroup.user.exception.UserInfoException;
@@ -155,6 +156,11 @@ public class AuthService {
 
   // 비밀번호 변경
   public void updatePassword(String userId, User.UserPasswordUpdateReq req) {
+
+    if (userId == null) {
+      throw new AuthException.UnauthorizedMe();
+    }
+
     UserEntity userEntity = this.userRepository.findById(userId)
       .orElseThrow(UserException.UserNotFound::new);
 
