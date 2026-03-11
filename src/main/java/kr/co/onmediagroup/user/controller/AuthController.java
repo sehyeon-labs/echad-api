@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -119,16 +120,16 @@ public class AuthController {
   @Description("비밀번호 수정")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void updatePassword(
-    Authentication authentication,
+    @AuthenticationPrincipal User.UserPrincipal principal,
     @Valid @RequestBody User.UserPasswordUpdateReq userPasswordUpdateReq
   ) {
 
-    if (authentication == null || !authentication.isAuthenticated()) {
+    if (principal == null) {
       throw new AuthException.UnauthorizedMe();
     }
 
-    User.UserPrincipal principal = (User.UserPrincipal) authentication.getPrincipal();
+    String userId = principal.getUserId();
 
-    this.authService.updatePassword(principal.getUserId(), userPasswordUpdateReq);
+    this.authService.updatePassword(userId, userPasswordUpdateReq);
   }
 }
