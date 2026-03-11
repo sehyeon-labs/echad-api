@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class Template {
 
@@ -47,7 +48,7 @@ public class Template {
     private Integer componentType;
     private String previewUrl;
     private IsPremium isPremium;
-    private String templateSchema;
+    private Map<String, String> templateSchema;
     private Integer sortOrder;
     private ActiveYn activeYn;
     private LocalDateTime deletedAt;
@@ -56,14 +57,14 @@ public class Template {
   }
 
   @Data
-  public static class TemplateResponse {
+  public static class TemplateRes {
     private Integer templateId;
     private String title;
     private Component component;
     private Integer componentType;
     private String previewUrl;
     private IsPremium isPremium;
-    private String templateSchema;
+    private Map<String, String> templateSchema;
     private Integer sortOrder;
     private ActiveYn activeYn;
     private LocalDateTime deletedAt;
@@ -71,13 +72,13 @@ public class Template {
     private LocalDateTime updatedAt;
   }
 
-  public record TemplateReq(
+  public record TemplateCreateReq(
     @NotBlank @Size(max = 255) String title,
     @NotNull Component component,
     @NotNull Integer componentType,
     @Size(max = 255) String previewUrl,
     IsPremium isPremium,
-    @NotBlank String templateSchema,
+    @NotBlank Map<String, String> templateSchema,
     Integer sortOrder
   ){
   }

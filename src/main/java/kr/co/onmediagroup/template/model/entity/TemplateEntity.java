@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import kr.co.onmediagroup.template.model.dto.Template;
+import kr.co.onmediagroup.util.StringMapConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Builder
 @Getter
@@ -39,7 +41,6 @@ public class TemplateEntity {
   @Column(name = "component_type", nullable = false)
   private Integer componentType = 1;
 
-  @NotBlank
   @Size(max = 255)
   @Column(name = "preview_url")
   private String previewUrl;
@@ -49,8 +50,9 @@ public class TemplateEntity {
   @Column(name = "is_premium")
   private Template.IsPremium isPremium = Template.IsPremium.N;
 
-  @Column(name = "template_schema", columnDefinition = "json")
-  private String templateSchema;
+  @Column(name = "template_schema")
+  @Convert(converter = StringMapConverter.class)
+  private Map<String, String> templateSchema;
 
   @Builder.Default
   @Column(name = "sort_order")

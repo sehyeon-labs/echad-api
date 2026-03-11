@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "template_custom_image")
+@Table(name = "template_custom_image", indexes = {
+  @Index(name = "idx__template_custom_id__sort_order", columnList = "template_custom_id, sort_order", unique = false)
+})
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class TemplateCustomImageEntity {
