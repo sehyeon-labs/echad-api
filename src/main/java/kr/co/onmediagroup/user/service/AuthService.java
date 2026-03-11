@@ -152,4 +152,29 @@ public class AuthService {
       .weddingDate(weddingDate)
       .build();
   }
+
+  // 비밀번호 변경
+  public void updatePassword(String userId, User.UserPasswordUpdateReq req) {
+    UserEntity userEntity = this.userRepository.findById(userId)
+      .orElseThrow(UserException.UserNotFound::new);
+
+    // 1. 현재 비밀번호 일치 확인
+    if (!passwordEncoder.matches(req.currentPassword(), userEntity.getUserPassword())) {
+      throw new UserException.InvalidCurrentPassword();
+    }
+
+    // 2. 새 비밀번호와 확인 비밀번호 일치 확인
+    if (!req.newPassword().equals(req.newPasswordConfirm())) {
+      throw new UserException.NewPasswordNotMatch();
+    }
+
+    // 3. 현재 비밀번호와 새 비밀번호가 동일한지 확인
+    if (passwordEncoder.matches(req.newPassword(), userEntity.getUserPassword())) {
+      throw new UserException.SameAsCurrentPassword();
+    }
+
+    // 4. 비밀번호 암호화 및 저장
+    userEntity.setUserPassword(passwordEncoder.encode(req.newPassword()));
+    this.userRepository.save(userEntity);
+  }
 }

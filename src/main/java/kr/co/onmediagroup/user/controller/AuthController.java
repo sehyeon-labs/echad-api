@@ -114,4 +114,21 @@ public class AuthController {
       userJoinReq.weddingDate()
     );
   }
+
+  @PostMapping("/password")
+  @Description("비밀번호 수정")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void updatePassword(
+    Authentication authentication,
+    @Valid @RequestBody User.UserPasswordUpdateReq userPasswordUpdateReq
+  ) {
+
+    if (authentication == null || !authentication.isAuthenticated()) {
+      throw new AuthException.UnauthorizedMe();
+    }
+
+    User.UserPrincipal principal = (User.UserPrincipal) authentication.getPrincipal();
+
+    this.authService.updatePassword(principal.getUserId(), userPasswordUpdateReq);
+  }
 }

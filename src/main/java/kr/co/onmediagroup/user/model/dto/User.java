@@ -142,6 +142,13 @@ public class User {
   ){
   }
 
+  public record UserPasswordUpdateReq(
+    @NotBlank String currentPassword,
+    @NotBlank String newPassword,
+    @NotBlank String newPasswordConfirm
+  ){
+  }
+
 
   /**
    * JWT 사용자 정보 DTO
