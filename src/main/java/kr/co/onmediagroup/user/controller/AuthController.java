@@ -123,8 +123,7 @@ public class AuthController {
     @AuthenticationPrincipal User.UserPrincipal principal,
     @Valid @RequestBody User.UserPasswordUpdateReq userPasswordUpdateReq
   ) {
-
-    String userId = principal != null ? principal.getUserId() : null;
+    String userId = principal.getUserId();
 
     this.authService.updatePassword(userId, userPasswordUpdateReq);
   }
