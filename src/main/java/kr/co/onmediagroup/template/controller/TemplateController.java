@@ -1,5 +1,6 @@
 package kr.co.onmediagroup.template.controller;
 
+import kr.co.onmediagroup.config.annotation.Description;
 import kr.co.onmediagroup.template.model.dto.Template;
 import kr.co.onmediagroup.template.service.TemplateService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,10 @@ import java.util.List;
 public class TemplateController {
   private final TemplateService templateService;
 
-  @GetMapping("")
+  @GetMapping("/live")
+  @Description("활성화 상태의 템플릿 조회")
   @ResponseStatus(HttpStatus.OK)
-  public List<Template.TemplateResponse> findActiveTemplate() {
-    return this.templateService.findActiveTempalte();
+  public List<Template.TemplateRes> findActiveTemplate() {
+    return this.templateService.findActiveTemplates();
   }
 }

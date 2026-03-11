@@ -1,7 +1,5 @@
 package kr.co.onmediagroup.template.service;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import kr.co.onmediagroup.template.exception.TemplateException;
 import kr.co.onmediagroup.template.model.dto.Template;
 import kr.co.onmediagroup.template.model.entity.TemplateEntity;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
 
@@ -22,47 +21,51 @@ import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
 public class TemplateService {
   private final TemplateRepository templateRepository;
 
-  public List<Template.TemplateResponse> findActiveTempalte() {
+  // 활성화 상태의 템플릿 목록 조회
+  public List<Template.TemplateRes> findActiveTemplates() {
     List<TemplateEntity> entityList = this.templateRepository
-      .findByActiveYnOrderBySortOrderDesc(Template.ActiveYn.Y);
+      .findByActiveYnAndDeletedAtIsNullOrderBySortOrderDesc(Template.ActiveYn.Y);
 
     if (entityList.isEmpty()) {
       throw new TemplateException.NoTemplate();
     }
 
-    List<Template.TemplateResponse> res = entityList.stream()
-      .map(entity -> MODEL_MAPPER.map(entity, Template.TemplateResponse.class))
+    List<Template.TemplateRes> res = entityList.stream()
+      .map(entity -> MODEL_MAPPER.map(entity, Template.TemplateRes.class))
       .toList();
 
     return res;
   }
 
-  public Template.TemplateResponse create(
+  // 템플릿 생성
+  public Template.TemplateRes create(
     String title,
+    Template.Component component,
+    Integer componentType,
     String previewUrl,
     Template.IsPremium isPremium,
-    String templateSchem,
-    Integer schemaVersion
+    Map<String, String> templateSchema,
+    Integer sortOrder
   ) {
     // 중복검사
-    boolean existsByTitleAndSchemaVersion = this.templateRepository.existsByTitleAndSchemaVersion(title, schemaVersion);
+    boolean exists = this.templateRepository.existsByTitleAndComponentAndComponentType(title, component, componentType);
 
-    if (!existsByTitleAndSchemaVersion) {
+    if (exists) {
       throw new TemplateException.AlreadyExistTemplate();
     }
 
     TemplateEntity entity = TemplateEntity.builder()
       .title(title)
+      .component(component)
+      .componentType(componentType)
       .previewUrl(previewUrl)
       .isPremium(isPremium)
-      .templateSchema(templateSchem)
-      .schemaVersion(schemaVersion)
+      .templateSchema(templateSchema)
+      .sortOrder(sortOrder)
       .build();
 
     entity = this.templateRepository.save(entity);
 
-    Template.TemplateResponse res = MODEL_MAPPER.map(entity, Template.TemplateResponse.class);
-
-    return res;
+    return MODEL_MAPPER.map(entity, Template.TemplateRes.class);
   }
 }

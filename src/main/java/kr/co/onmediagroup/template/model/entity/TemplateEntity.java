@@ -4,20 +4,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import kr.co.onmediagroup.template.model.dto.Template;
+import kr.co.onmediagroup.util.StringMapConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "template", indexes = {
-  @Index(name = "ux__title__version", columnList = "title, schema_version", unique = true)
-})
+@Table(name = "template")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class TemplateEntity {
@@ -32,7 +32,15 @@ public class TemplateEntity {
   @Column(name = "title")
   private String title;
 
-  @NotBlank
+  @Builder.Default
+  @Enumerated(EnumType.STRING)
+  @Column(name = "component", nullable = false)
+  private Template.Component component = Template.Component.TEXT;
+
+  @Builder.Default
+  @Column(name = "component_type", nullable = false)
+  private Integer componentType = 1;
+
   @Size(max = 255)
   @Column(name = "preview_url")
   private String previewUrl;
@@ -42,12 +50,9 @@ public class TemplateEntity {
   @Column(name = "is_premium")
   private Template.IsPremium isPremium = Template.IsPremium.N;
 
-  @Column(name = "template_schema", columnDefinition = "json")
-  private String templateSchema;
-
-  @Builder.Default
-  @Column(name = "schema_version")
-  private Integer schemaVersion = 1;
+  @Column(name = "template_schema")
+  @Convert(converter = StringMapConverter.class)
+  private Map<String, String> templateSchema;
 
   @Builder.Default
   @Column(name = "sort_order")
@@ -57,6 +62,9 @@ public class TemplateEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "active_yn")
   private Template.ActiveYn activeYn = Template.ActiveYn.N;
+
+  @Column(name = "deleted_at")
+  private LocalDateTime deletedAt;
 
   @Column(name = "created_at")
   @CreatedDate

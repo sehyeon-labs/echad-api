@@ -107,6 +107,7 @@ public class AuthService {
       .build();
   }
 
+  // 회원가입
   public User.UserJoinRes join(
     String userId,
     String userPassword,

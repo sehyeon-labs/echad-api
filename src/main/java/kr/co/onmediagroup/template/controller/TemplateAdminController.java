@@ -2,6 +2,7 @@ package kr.co.onmediagroup.template.controller;
 
 import jakarta.validation.Valid;
 import kr.co.onmediagroup.config.annotation.CheckAdminUser;
+import kr.co.onmediagroup.config.annotation.Description;
 import kr.co.onmediagroup.template.model.dto.Template;
 import kr.co.onmediagroup.template.service.TemplateService;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +19,19 @@ public class TemplateAdminController {
 
   @PostMapping("")
   @CheckAdminUser
+  @Description("템플릿 생성")
   @ResponseStatus(HttpStatus.CREATED)
-  public Template.TemplateResponse create(
-    @Valid @RequestBody Template.TemplateReq templateReq
+  public Template.TemplateRes create(
+    @Valid @RequestBody Template.TemplateCreateReq templateCreateReq
   ) {
     return this.templateService.create(
-      templateReq.title(),
-      templateReq.previewUrl(),
-      templateReq.isPremium(),
-      templateReq.templateSchema(),
-      templateReq.schemaVersion()
+      templateCreateReq.title(),
+      templateCreateReq.component(),
+      templateCreateReq.componentType(),
+      templateCreateReq.previewUrl(),
+      templateCreateReq.isPremium(),
+      templateCreateReq.templateSchema(),
+      templateCreateReq.sortOrder()
     );
   }
 }
