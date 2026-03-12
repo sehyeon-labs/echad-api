@@ -18,7 +18,7 @@ public class TemplateController {
   private final TemplateService templateService;
 
   @GetMapping("/live")
-  @Description("활성화 상태의 템플릿 조회")
+  @Description("활성 상태의 템플릿 조회")
   @ResponseStatus(HttpStatus.OK)
   public List<Template.TemplateRes> findActiveTemplate() {
     return this.templateService.findActiveTemplates();

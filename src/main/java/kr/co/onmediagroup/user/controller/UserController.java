@@ -31,7 +31,7 @@ public class UserController {
   }
 
 
-  @PostMapping("/me")
+  @PatchMapping("/me")
   @Description("자기 자신 정보 수정")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void updateMe(
