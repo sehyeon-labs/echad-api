@@ -25,6 +25,7 @@ public class UserEntity {
   @Column(name = "user_id")
   private String userId;
 
+  @Setter
   @Size(max = 255)
   @Column(name = "user_password")
   private String userPassword;

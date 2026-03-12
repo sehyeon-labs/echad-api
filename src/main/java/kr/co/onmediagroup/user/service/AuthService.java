@@ -1,6 +1,7 @@
 package kr.co.onmediagroup.user.service;
 
 import kr.co.onmediagroup.config.AuthConfig;
+import kr.co.onmediagroup.exception.AuthException;
 import kr.co.onmediagroup.user.exception.LoginException;
 import kr.co.onmediagroup.user.exception.UserException;
 import kr.co.onmediagroup.user.exception.UserInfoException;
@@ -151,5 +152,35 @@ public class AuthService {
       .brideName(brideName)
       .weddingDate(weddingDate)
       .build();
+  }
+
+  // 비밀번호 변경
+  public void updatePassword(String userId, User.UserPasswordUpdateReq req) {
+
+    if (userId == null) {
+      throw new AuthException.UnauthorizedMe();
+    }
+
+    UserEntity userEntity = this.userRepository.findById(userId)
+      .orElseThrow(UserException.UserNotFound::new);
+
+    // 현재 비밀번호 일치 확인
+    if (!passwordEncoder.matches(req.currentPassword(), userEntity.getUserPassword())) {
+      throw new UserException.InvalidCurrentPassword();
+    }
+
+    // 새 비밀번호와 확인 비밀번호 일치 확인
+    if (!req.newPassword().equals(req.newPasswordConfirm())) {
+      throw new UserException.NewPasswordNotMatch();
+    }
+
+    // 현재 비밀번호와 새 비밀번호가 동일한지 확인
+    if (passwordEncoder.matches(req.newPassword(), userEntity.getUserPassword())) {
+      throw new UserException.SameAsCurrentPassword();
+    }
+
+    // 비밀번호 암호화 및 저장
+    userEntity.setUserPassword(passwordEncoder.encode(req.newPassword()));
+    this.userRepository.save(userEntity);
   }
 }

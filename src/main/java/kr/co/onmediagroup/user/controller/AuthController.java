@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -113,5 +114,17 @@ public class AuthController {
       userJoinReq.brideName(),
       userJoinReq.weddingDate()
     );
+  }
+
+  @PostMapping("/password")
+  @Description("비밀번호 수정")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void updatePassword(
+    @AuthenticationPrincipal User.UserPrincipal principal,
+    @Valid @RequestBody User.UserPasswordUpdateReq userPasswordUpdateReq
+  ) {
+    String userId = principal.getUserId();
+
+    this.authService.updatePassword(userId, userPasswordUpdateReq);
   }
 }
