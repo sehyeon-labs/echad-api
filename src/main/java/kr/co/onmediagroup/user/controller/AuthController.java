@@ -2,7 +2,6 @@ package kr.co.onmediagroup.user.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import kr.co.onmediagroup.exception.AuthException;
 import kr.co.onmediagroup.user.model.dto.User;
 import kr.co.onmediagroup.user.model.dto.UserInfo;
 import kr.co.onmediagroup.user.service.AuthService;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,15 +26,12 @@ public class AuthController {
   @GetMapping("/me")
   @Description("로그인 사용자 정보 조회")
   @ResponseStatus(value = HttpStatus.OK)
-  public User.UserLoginResponse authMe(Authentication authentication) {
+  public User.UserLoginResponse authMe(
+    @AuthenticationPrincipal User.UserPrincipal principal
+  ) {
+    String userId = principal.getUserId();
 
-    if (authentication == null || !authentication.isAuthenticated()) {
-      throw new AuthException.UnauthorizedMe();
-    }
-
-    User.UserPrincipal principal = (User.UserPrincipal) authentication.getPrincipal();
-
-    UserInfo.UserInfoName userInfoName = this.authService.getUserInfoName(principal.getUserId());
+    UserInfo.UserInfoName userInfoName = this.authService.getUserInfoName(userId);
 
     User.UserLoginResponse res = User.UserLoginResponse.builder()
       .userId(principal.getUserId())
@@ -56,7 +51,6 @@ public class AuthController {
     @Valid @RequestBody User.UserLoginReq userLoginReq,
     HttpServletResponse response
   ) {
-
     User.UserLoginModel model = this.authService.login(
       userLoginReq.userId(),
       userLoginReq.userPassword()
@@ -86,7 +80,9 @@ public class AuthController {
   @PostMapping("/logout")
   @Description("사용자 로그아웃")
   @ResponseStatus(value = HttpStatus.OK)
-  public void logout(HttpServletResponse response) {
+  public void logout(
+    HttpServletResponse response
+  ) {
     ResponseCookie cookie = ResponseCookie.from("access_token", "")
       .httpOnly(true)
       .secure(false)
@@ -116,7 +112,7 @@ public class AuthController {
     );
   }
 
-  @PostMapping("/password")
+  @PatchMapping("/password")
   @Description("비밀번호 수정")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void updatePassword(
