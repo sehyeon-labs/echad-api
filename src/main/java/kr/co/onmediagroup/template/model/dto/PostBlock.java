@@ -35,4 +35,16 @@ public class PostBlock {
     @NotNull Map<String, String> customSchema
   ){
   }
+
+  public record PostBlockOrderReq(
+    @NotNull Integer postBlockId,
+    @NotNull Integer sortOrder
+  ) {
+  }
+
+  public record PostBlockSwapReq(
+    @NotNull Integer postBlockId1,
+    @NotNull Integer postBlockId2
+  ) {
+  }
 }

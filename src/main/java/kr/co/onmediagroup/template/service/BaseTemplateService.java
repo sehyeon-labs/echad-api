@@ -1,6 +1,6 @@
 package kr.co.onmediagroup.template.service;
 
-import kr.co.onmediagroup.template.exception.PostException;
+import kr.co.onmediagroup.template.exception.TemplateException;
 import kr.co.onmediagroup.template.model.dto.BaseTemplate;
 import kr.co.onmediagroup.template.model.entity.BaseTemplateEntity;
 import kr.co.onmediagroup.template.repository.BaseTemplateRepository;
@@ -26,7 +26,7 @@ public class BaseTemplateService {
       .findByActiveYnAndDeletedAtIsNullOrderBySortOrderDesc(BaseTemplate.ActiveYn.Y);
 
     if (entityList.isEmpty()) {
-      throw new PostException.NoTemplate();
+      throw new TemplateException.NoTemplate();
     }
 
     return entityList.stream()
@@ -46,7 +46,7 @@ public class BaseTemplateService {
     boolean exists = this.baseTemplateRepository.existsByTitleAndComponentAndComponentType(title, component, componentType);
 
     if (exists) {
-      throw new PostException.AlreadyExistTemplate();
+      throw new TemplateException.AlreadyExistTemplate();
     }
 
     BaseTemplateEntity entity = BaseTemplateEntity.builder()

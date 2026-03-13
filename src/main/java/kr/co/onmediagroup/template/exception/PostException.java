@@ -6,11 +6,15 @@ import lombok.Getter;
 public class PostException extends RuntimeException {
   public PostException(String message) { super(message); }
 
-  public static class NoTemplate extends PostException {
-    public NoTemplate() { super("no template data"); }
+  public static class NoPost extends PostException {
+    public NoPost() { super("no post data"); }
   }
 
-  public static class AlreadyExistTemplate extends PostException {
-    public AlreadyExistTemplate() { super("already exist template"); }
+  public static class AlreadyExistPost extends PostException {
+    public AlreadyExistPost() { super("already exist post"); }
+  }
+
+  public static class UnauthorizedPostAccess extends PostException {
+    public UnauthorizedPostAccess() { super("Post without permission"); }
   }
 }
