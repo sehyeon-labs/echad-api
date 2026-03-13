@@ -22,39 +22,42 @@ import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
 @Transactional
 @RequiredArgsConstructor
 public class PostService {
-    private final PostRepository postRepository;
-    private final PostBlockRepository postBlockRepository;
+  private final PostRepository postRepository;
+  private final PostBlockRepository postBlockRepository;
 
-    public Post.PostRes findByPostId(String postId, String userId) {
-        PostEntity post = postRepository.findByPostIdAndUserIdAndDeletedAtIsNull(postId, userId)
-                .orElseThrow(PostException.NoPost::new);
+  public Post.PostRes findByPostId(String postId, String userId) {
+    PostEntity post = postRepository.findByPostIdAndUserIdAndDeletedAtIsNull(postId, userId)
+      .orElseThrow(PostException.NoPost::new);
 
-        List<PostBlockEntity> blocks = postBlockRepository.findAllByPostIdWithDetails(postId, BaseTemplate.ActiveYn.Y);
+    List<PostBlockEntity> blocks = postBlockRepository.findAllByPostIdWithDetails(postId, BaseTemplate.ActiveYn.Y);
 
-        Post.PostRes res = MODEL_MAPPER.map(post, Post.PostRes.class);
+    Post.PostRes res = MODEL_MAPPER.map(post, Post.PostRes.class);
 
-        List<PostBlock.PostBlockRes> content = blocks.stream()
-                .map(block -> {
-                    PostBlock.PostBlockRes pbr = new PostBlock.PostBlockRes();
-                    pbr.setPostBlockId(block.getPostBlockId());
-                    pbr.setSortOrder(block.getSortOrder());
-                    pbr.setDetail(MODEL_MAPPER.map(block, PostBlock.PostBlockDetailRes.class));
-                    return pbr;
-                })
-                .toList();
+    List<PostBlock.PostBlockRes> content = blocks.stream()
+      .map(block -> {
+        PostBlock.PostBlockRes pbr = new PostBlock.PostBlockRes();
+        pbr.setPostBlockId(block.getPostBlockId());
+        pbr.setSortOrder(block.getSortOrder());
+        pbr.setDetail(MODEL_MAPPER.map(block, PostBlock.PostBlockDetailRes.class));
+        return pbr;}
+      ).toList();
 
-        res.setContent(content);
-        return res;
+    res.setContent(content);
+    return res;
+  }
+
+  public void changeActive(
+    String postId,
+    String userId,
+    Post.ActiveYn activeYn
+  ) {
+    PostEntity post = postRepository.findByPostIdAndDeletedAtIsNull(postId)
+      .orElseThrow(PostException.NoPost::new);
+
+    if (!post.getUserId().equals(userId)) {
+      throw new PostException.UnauthorizedPostAccess();
     }
 
-    public void changeActive(String postId, String userId, Post.ActiveYn activeYn) {
-        PostEntity post = postRepository.findByPostIdAndDeletedAtIsNull(postId)
-                .orElseThrow(PostException.NoPost::new);
-
-        if (!post.getUserId().equals(userId)) {
-            throw new PostException.UnauthorizedPostAccess();
-        }
-
-        post.updateActiveYn(activeYn);
-    }
+    post.updateActiveYn(activeYn);
+  }
 }

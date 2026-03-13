@@ -64,6 +64,12 @@ public class PostController {
     @PathVariable String postId,
     @Valid @RequestBody Post.PostActiveUpdateReq req
   ) {
-    this.postService.changeActive(postId, principal.getUserId(), req.activeYn());
+    String userId = principal.getUserId();
+
+    this.postService.changeActive(
+      postId,
+      userId,
+      req.activeYn()
+    );
   }
 }
