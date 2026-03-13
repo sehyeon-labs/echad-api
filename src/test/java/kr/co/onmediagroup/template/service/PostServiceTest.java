@@ -82,4 +82,6 @@ class PostServiceTest {
         // When & Then
         assertThrows(PostException.UnauthorizedPostAccess.class, () -> postService.changeActive(postId, userId, activeYn));
     }
+
+    // template test
 }
