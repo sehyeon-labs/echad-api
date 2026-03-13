@@ -21,11 +21,7 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "template_custom", indexes = {
-  @Index(name = "uq__user_id__custom_id__sort_order", columnList = "user_id, custom_id, sort_order", unique = true),
-  @Index(name = "idx__custom_id__sort_order", columnList = "custom_id, sort_order", unique = false),
-  @Index(name = "idx__custom_id__deleted_at", columnList = "custom_id, deleted_at", unique = false)
-})
+@Table(name = "template_custom")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class TemplateCustomEntity {
@@ -37,11 +33,6 @@ public class TemplateCustomEntity {
 
   @NotBlank
   @Size(max = 255)
-  @Column(name = "custom_id")
-  private String customId;
-
-  @NotBlank
-  @Size(max = 255)
   @Column(name = "user_id")
   private String userId;
 
@@ -49,22 +40,9 @@ public class TemplateCustomEntity {
   @Column(name = "template_id")
   private Integer templateId;
 
-  @Builder.Default
-  @NotNull
-  @Column(name = "sort_order")
-  private Integer sortOrder = 0;
-
   @Column(name = "custom_schema")
   @Convert(converter = StringMapConverter.class)
   private Map<String, String> customSchema;
-
-  @Builder.Default
-  @Enumerated(EnumType.STRING)
-  @Column(name = "active_yn")
-  private TemplateCustom.ActiveYn activeYn = TemplateCustom.ActiveYn.N;
-
-  @Column(name = "deleted_at")
-  private LocalDateTime deletedAt;
 
   @Column(name = "created_at")
   @CreatedDate

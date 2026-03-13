@@ -23,7 +23,7 @@ CREATE TABLE user_info (
   INDEX idx__user_id__wedding_date (user_id, wedding_date) COMMENT '유저, 결혼날짜 인덱스'
 ) COMMENT '유저 상세 정보';
 
-CREATE TABLE template (
+CREATE TABLE `template` (
   template_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'PK',
   title VARCHAR(255) NOT NULL COMMENT '템플릿 제목',
   component ENUM('HEADER', 'TEXT', 'BUTTON', 'IMG', 'CONTENT', 'LOCATION') NOT NULL DEFAULT 'TEXT' COMMENT '템플릿 요소',
@@ -38,21 +38,36 @@ CREATE TABLE template (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시'
 ) COMMENT='템플릿';
 
-CREATE TABLE `template_custom` (
-  template_custom_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
-  custom_id VARCHAR(255) NOT NULL COMMENT '그룹 ID (템플릿 게시물 단위 식별자)',
+CREATE TABLE `custom` (
+  custom_id VARCHAR(255) NOT NULL PRIMARY KEY COMMENT 'PK (게시물 ID)',
   user_id VARCHAR(255) NOT NULL COMMENT '유저 아이디',
-  template_id INT NOT NULL COMMENT '원본 템플릿 ID (FK)',
-  sort_order INT NOT NULL DEFAULT 0 COMMENT '정렬 순서 (0부터 시작)',
-  custom_schema JSON NULL COMMENT '사용자 커스텀 설정 (색상, 크기, 위치 등)',
   active_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '활동상태',
-  deleted_at DATETIME NULL DEFAULT NULL COMMENT '논리 삭제 일시',
+  start_date DATETIME NULL COMMENT '시작 일시',
+  end_date DATETIME NULL COMMENT '종료 일시',
+  deleted_at DATETIME NULL DEFAULT NULL COMMENT '삭제 일시',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
-  UNIQUE INDEX uq__user_id__custom_id__sort_order (user_id, custom_id, sort_order) COMMENT '유닉크 인덱스',
-  INDEX idx__custom_id__sort_order (custom_id, sort_order) COMMENT '그룹 인덱스',
-  INDEX idx__custom_id__deleted_at (custom_id, deleted_at) COMMENT '삭제 안된 항목들 그룹 인덱스'
-) COMMENT='사용자 커스텀 템플릿 저장소';
+  INDEX idx__user_id__deleted_at (user_id, deleted_at)
+) COMMENT='사용자 게시물(모바일 청첩장 등)';
+
+CREATE TABLE `template_custom` (
+  template_custom_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+  user_id VARCHAR(255) NOT NULL COMMENT '유저 아이디',
+  template_id INT NOT NULL COMMENT '원본 템플릿 ID (FK)',
+  custom_schema JSON NULL COMMENT '사용자 커스텀 설정 (색상, 크기, 위치 등)',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시'
+) COMMENT='사용자 커스텀 템플릿 요소 저장소';
+
+CREATE TABLE `custom_template` (
+  custom_template_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+  custom_id VARCHAR(255) NOT NULL COMMENT '게시물 ID (FK)',
+  template_custom_id INT NOT NULL COMMENT '커스텀 템플릿 요소 ID (FK)',
+  sort_order INT NOT NULL DEFAULT 0 COMMENT '정렬 순서 (0부터 시작)',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+  INDEX idx__custom_id__sort_order (custom_id, sort_order)
+) COMMENT='게시물별 커스텀 템플릿 매핑 및 순서 관리';
 
 CREATE TABLE `template_custom_image` (
   template_custom_image_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',

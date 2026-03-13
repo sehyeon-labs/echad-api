@@ -3,6 +3,7 @@ package kr.co.onmediagroup.template.controller;
 import jakarta.validation.Valid;
 import kr.co.onmediagroup.config.annotation.Description;
 import kr.co.onmediagroup.template.model.dto.TemplateCustom;
+import kr.co.onmediagroup.template.service.CustomService;
 import kr.co.onmediagroup.template.service.TemplateCustomService;
 import kr.co.onmediagroup.user.model.dto.User;
 import lombok.RequiredArgsConstructor;
@@ -19,24 +20,25 @@ import java.util.List;
 @RequestMapping("/template/custom")
 public class TemplateCustomController {
   private final TemplateCustomService templateCustomService;
+  private final CustomService customService;
 
   @GetMapping("/{customId}")
-  @Description("커스텀 템플릿 조회")
+  @Description("커스텀 템플릿 게시물 상세 조회")
   @ResponseStatus(HttpStatus.OK)
-  public List<TemplateCustom.TemplateCustomRes> findByCustomId(
+  public TemplateCustom.CustomRes findByCustomId(
     @AuthenticationPrincipal User.UserPrincipal principal,
     @PathVariable String customId
   ) {
     String userId = principal.getUserId();
 
-    return this.templateCustomService.findByCustomId(
+    return this.customService.findByCustomId(
       customId,
       userId
     );
   }
 
   @PostMapping("")
-  @Description("커스텀 템플릿 벌크 생성")
+  @Description("커스텀 템플릿 게시물 및 요소 생성")
   @ResponseStatus(HttpStatus.CREATED)
   public void create(
     @AuthenticationPrincipal User.UserPrincipal principal,

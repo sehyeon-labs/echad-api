@@ -20,18 +20,30 @@ public class TemplateCustom {
   }
 
   @Data
-  public static class TemplateCustomRes {
-    private Integer templateCustomId;
+  public static class CustomRes {
     private String customId;
     private String userId;
-    private Integer templateId;
-    private Integer sortOrder;
-    private Map<String, String> customSchema;
-    private List<TemplateCustomImageRes> images;
     private TemplateCustom.ActiveYn activeYn;
     private LocalDateTime deletedAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private List<CustomTemplateRes> content;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+  }
+
+  @Data
+  public static class CustomTemplateRes {
+    private Integer templateCustomId;
+    private Integer sortOrder;
+    private TemplateCustomBlockRes templateCustom;
+  }
+
+  @Data
+  public static class TemplateCustomBlockRes {
+    private Integer templateId;
+    private Map<String, String> customSchema;
+    private List<TemplateCustomImageRes> images;
   }
 
   @Data
@@ -44,7 +56,7 @@ public class TemplateCustom {
   public record TemplateCustomReq(
     @NotNull Integer templateId,
     @NotNull Integer sortOrder,
-    @NotBlank Map<String, String> customSchema
+    @NotNull Map<String, String> customSchema
   ){
   }
 
