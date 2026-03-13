@@ -55,4 +55,21 @@ public class PostController {
       postBlockReqList
     );
   }
+
+  @PatchMapping("/change-active/{postId}")
+  @Description("게시물 활성화 상태 변경")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void changeActive(
+    @AuthenticationPrincipal User.UserPrincipal principal,
+    @PathVariable String postId,
+    @Valid @RequestBody Post.PostActiveUpdateReq req
+  ) {
+    String userId = principal.getUserId();
+
+    this.postService.changeActive(
+      postId,
+      userId,
+      req.activeYn()
+    );
+  }
 }

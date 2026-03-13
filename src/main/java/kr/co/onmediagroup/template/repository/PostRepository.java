@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, String> {
   Optional<PostEntity> findByPostIdAndUserIdAndDeletedAtIsNull(String postId, String userId);
+
+  Optional<PostEntity> findByPostIdAndDeletedAtIsNull(String postId);
 }
