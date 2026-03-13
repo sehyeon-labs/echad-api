@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-public class TemplateCustom {
+public class Post {
   @Getter
   @AllArgsConstructor
   public enum ActiveYn {
@@ -20,49 +20,49 @@ public class TemplateCustom {
   }
 
   @Data
-  public static class CustomRes {
-    private String customId;
+  public static class PostRes {
+    private String postId;
     private String userId;
-    private TemplateCustom.ActiveYn activeYn;
+    private Post.ActiveYn activeYn;
     private LocalDateTime deletedAt;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private List<CustomTemplateRes> content;
+    private List<PostBlockRes> content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
   }
 
   @Data
-  public static class CustomTemplateRes {
-    private Integer templateCustomId;
+  public static class PostBlockRes {
+    private Integer postBlockId;
     private Integer sortOrder;
-    private TemplateCustomBlockRes templateCustom;
+    private PostBlockDetailRes detail;
   }
 
   @Data
-  public static class TemplateCustomBlockRes {
+  public static class PostBlockDetailRes {
     private Integer templateId;
     private Map<String, String> customSchema;
-    private List<TemplateCustomImageRes> images;
+    private List<PostBlockImageRes> images;
   }
 
   @Data
-  public static class TemplateCustomImageRes {
-    private Integer templateCustomImageId;
+  public static class PostBlockImageRes {
+    private Integer postBlockImageId;
     private String imageUrl;
     private Integer sortOrder;
   }
 
-  public record TemplateCustomReq(
+  public record PostBlockReq(
     @NotNull Integer templateId,
     @NotNull Integer sortOrder,
     @NotNull Map<String, String> customSchema
   ){
   }
 
-  public record TemplateCustomCreateReq(
+  public record PostCreateReq(
     @NotBlank String customId,
-    List<TemplateCustom.TemplateCustomReq> templateCustomReqList
+    List<Post.PostBlockReq> postBlockReqList
   ){
   }
 }

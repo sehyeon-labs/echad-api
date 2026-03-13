@@ -12,24 +12,25 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "custom_template")
+@Table(name = "post_block_image")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class CustomTemplateEntity {
+public class PostBlockImageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "custom_template_id")
-    private Integer customTemplateId;
+    @Column(name = "post_block_image_id")
+    private Integer postBlockImageId;
 
-    @Column(name = "custom_id")
-    private String customId;
+    @Column(name = "post_block_id", nullable = false)
+    private Integer postBlockId;
 
-    @Column(name = "template_custom_id")
-    private Integer templateCustomId;
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
+    @Builder.Default
     @Column(name = "sort_order")
-    private Integer sortOrder;
+    private Integer sortOrder = 0;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -40,10 +41,6 @@ public class CustomTemplateEntity {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "custom_id", insertable = false, updatable = false)
-    private CustomEntity custom;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_custom_id", insertable = false, updatable = false)
-    private TemplateCustomEntity templateCustom;
+    @JoinColumn(name = "post_block_id", insertable = false, updatable = false)
+    private PostBlockEntity postBlock;
 }

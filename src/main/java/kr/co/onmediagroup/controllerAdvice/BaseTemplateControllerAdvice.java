@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class TemplateControllerAdvice extends BaseControllerAdvice {
+public class BaseTemplateControllerAdvice extends BaseControllerAdvice {
   @ExceptionHandler({TemplateException.class})
   public ProblemDetail handleTemplateException(TemplateException ex) {
     return this.exceptionResponse(HttpStatus.BAD_REQUEST, ex);

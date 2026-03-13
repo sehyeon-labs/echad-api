@@ -3,7 +3,7 @@ package kr.co.onmediagroup.template.model.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import kr.co.onmediagroup.template.model.dto.Template;
+import kr.co.onmediagroup.template.model.dto.BaseTemplate;
 import kr.co.onmediagroup.util.StringMapConverter;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,10 +17,10 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "template")
+@Table(name = "base_template")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class TemplateEntity {
+public class BaseTemplateEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class TemplateEntity {
   @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(name = "component", nullable = false)
-  private Template.Component component = Template.Component.TEXT;
+  private BaseTemplate.Component component = BaseTemplate.Component.TEXT;
 
   @Builder.Default
   @Column(name = "component_type", nullable = false)
@@ -48,7 +48,7 @@ public class TemplateEntity {
   @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(name = "is_premium")
-  private Template.IsPremium isPremium = Template.IsPremium.N;
+  private BaseTemplate.IsPremium isPremium = BaseTemplate.IsPremium.N;
 
   @Column(name = "template_schema")
   @Convert(converter = StringMapConverter.class)
@@ -61,7 +61,7 @@ public class TemplateEntity {
   @Builder.Default
   @Enumerated(EnumType.STRING)
   @Column(name = "active_yn")
-  private Template.ActiveYn activeYn = Template.ActiveYn.N;
+  private BaseTemplate.ActiveYn activeYn = BaseTemplate.ActiveYn.N;
 
   @Column(name = "deleted_at")
   private LocalDateTime deletedAt;
