@@ -1,5 +1,6 @@
 package kr.co.onmediagroup.template.service;
 
+import kr.co.onmediagroup.exception.ForbiddenException;
 import kr.co.onmediagroup.template.exception.PostException;
 import kr.co.onmediagroup.template.model.dto.BaseTemplate;
 import kr.co.onmediagroup.template.model.dto.Post;
@@ -54,5 +55,37 @@ public class PostBlockService {
       .toList();
 
     this.postBlockRepository.saveAll(blocks);
+  }
+
+  public void updateOrders(String userId, String postId, List<PostBlock.PostBlockOrderReq> reqList) {
+    validatePostOwnership(userId, postId);
+
+    reqList.forEach(req -> {
+      PostBlockEntity block = postBlockRepository.findByPostBlockIdAndPostId(req.postBlockId(), postId)
+              .orElseThrow(() -> new IllegalArgumentException("block not found for the post"));
+      block.updateSortOrder(req.sortOrder());
+    });
+  }
+
+  public void swapOrders(String userId, String postId, PostBlock.PostBlockSwapReq swapReq) {
+    validatePostOwnership(userId, postId);
+
+    PostBlockEntity block1 = postBlockRepository.findByPostBlockIdAndPostId(swapReq.postBlockId1(), postId)
+            .orElseThrow(() -> new IllegalArgumentException("block1 not found for the post"));
+    PostBlockEntity block2 = postBlockRepository.findByPostBlockIdAndPostId(swapReq.postBlockId2(), postId)
+            .orElseThrow(() -> new IllegalArgumentException("block2 not found for the post"));
+
+    Integer tempOrder = block1.getSortOrder();
+    block1.updateSortOrder(block2.getSortOrder());
+    block2.updateSortOrder(tempOrder);
+  }
+
+  private void validatePostOwnership(String userId, String postId) {
+    PostEntity post = postRepository.findById(postId)
+            .orElseThrow(() -> new IllegalArgumentException("post not found"));
+
+    if (!post.getUserId().equals(userId)) {
+      throw new ForbiddenException("No permission to modify this post");
+    }
   }
 }

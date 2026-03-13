@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/template/custom")
+@RequestMapping("/post")
 public class PostController {
   private final PostBlockService postBlockService;
   private final PostService postService;

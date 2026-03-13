@@ -59,4 +59,8 @@ public class PostBlockEntity {
     @OneToMany(mappedBy = "postBlock", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("sortOrder ASC")
     private List<PostBlockImageEntity> images = new ArrayList<>();
+
+    public void updateSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 }

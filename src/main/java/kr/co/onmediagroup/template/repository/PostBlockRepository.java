@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PostBlockRepository extends JpaRepository<PostBlockEntity, Integer> {
@@ -24,4 +25,6 @@ public interface PostBlockRepository extends JpaRepository<PostBlockEntity, Inte
         @Param("postId") String postId,
         @Param("activeYn") BaseTemplate.ActiveYn activeYn
     );
+
+    Optional<PostBlockEntity> findByPostBlockIdAndPostId(Integer postBlockId, String postId);
 }
