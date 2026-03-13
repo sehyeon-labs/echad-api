@@ -2,8 +2,10 @@ package kr.co.onmediagroup.template.controller;
 
 import jakarta.validation.Valid;
 import kr.co.onmediagroup.config.annotation.Description;
-import kr.co.onmediagroup.template.model.dto.TemplateCustom;
-import kr.co.onmediagroup.template.service.TemplateCustomService;
+import kr.co.onmediagroup.template.model.dto.Post;
+import kr.co.onmediagroup.template.model.dto.PostBlock;
+import kr.co.onmediagroup.template.service.PostBlockService;
+import kr.co.onmediagroup.template.service.PostService;
 import kr.co.onmediagroup.user.model.dto.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,39 +19,40 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/template/custom")
-public class TemplateCustomController {
-  private final TemplateCustomService templateCustomService;
+public class PostController {
+  private final PostBlockService postBlockService;
+  private final PostService postService;
 
-  @GetMapping("/{customId}")
-  @Description("커스텀 템플릿 조회")
+  @GetMapping("/{postId}")
+  @Description("게시물 상세 조회")
   @ResponseStatus(HttpStatus.OK)
-  public List<TemplateCustom.TemplateCustomRes> findByCustomId(
+  public Post.PostRes findByPostId(
     @AuthenticationPrincipal User.UserPrincipal principal,
-    @PathVariable String customId
+    @PathVariable String postId
   ) {
     String userId = principal.getUserId();
 
-    return this.templateCustomService.findByCustomId(
-      customId,
+    return this.postService.findByPostId(
+      postId,
       userId
     );
   }
 
   @PostMapping("")
-  @Description("커스텀 템플릿 벌크 생성")
+  @Description("게시물 및 블록 생성")
   @ResponseStatus(HttpStatus.CREATED)
   public void create(
     @AuthenticationPrincipal User.UserPrincipal principal,
-    @Valid @RequestBody TemplateCustom.TemplateCustomCreateReq templateCustomCreateReq
+    @Valid @RequestBody Post.PostCreateReq postCreateReq
   ) {
     String userId = principal.getUserId();
-    String customId = templateCustomCreateReq.customId();
-    List<TemplateCustom.TemplateCustomReq> templateCustomReqList = templateCustomCreateReq.templateCustomReqList();
+    String postId = postCreateReq.customId();
+    List<PostBlock.PostBlockReq> postBlockReqList = postCreateReq.postBlockReqList();
 
-    this.templateCustomService.saveBulk(
+    this.postBlockService.saveBulk(
       userId,
-      customId,
-      templateCustomReqList
+      postId,
+      postBlockReqList
     );
   }
 }
