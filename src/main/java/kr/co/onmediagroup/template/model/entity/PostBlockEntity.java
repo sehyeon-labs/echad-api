@@ -53,7 +53,7 @@ public class PostBlockEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "template_id", insertable = false, updatable = false)
-    private TemplateEntity template;
+    private BaseTemplateEntity template;
 
     @Builder.Default
     @OneToMany(mappedBy = "postBlock", cascade = CascadeType.ALL, orphanRemoval = true)

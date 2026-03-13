@@ -1,7 +1,7 @@
 package kr.co.onmediagroup.template.repository;
 
 import kr.co.onmediagroup.template.model.entity.PostBlockEntity;
-import kr.co.onmediagroup.template.model.dto.Template;
+import kr.co.onmediagroup.template.model.dto.BaseTemplate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +22,6 @@ public interface PostBlockRepository extends JpaRepository<PostBlockEntity, Inte
     """)
     List<PostBlockEntity> findAllByPostIdWithDetails(
         @Param("postId") String postId,
-        @Param("activeYn") Template.ActiveYn activeYn
+        @Param("activeYn") BaseTemplate.ActiveYn activeYn
     );
 }

@@ -1,8 +1,9 @@
 package kr.co.onmediagroup.template.service;
 
-import kr.co.onmediagroup.template.exception.TemplateException;
+import kr.co.onmediagroup.template.exception.PostException;
 import kr.co.onmediagroup.template.model.dto.BaseTemplate;
 import kr.co.onmediagroup.template.model.dto.Post;
+import kr.co.onmediagroup.template.model.dto.PostBlock;
 import kr.co.onmediagroup.template.model.entity.PostEntity;
 import kr.co.onmediagroup.template.model.entity.PostBlockEntity;
 import kr.co.onmediagroup.template.repository.PostRepository;
@@ -27,7 +28,7 @@ public class PostBlockService {
   public void saveBulk(
     String userId,
     String postId,
-    List<Post.PostBlockReq> reqList
+    List<PostBlock.PostBlockReq> reqList
   ) {
     PostEntity post = postRepository.findById(postId)
             .orElseGet(() -> postRepository.save(PostEntity.builder()
@@ -40,7 +41,7 @@ public class PostBlockService {
       .map(req -> {
         boolean existTemplate = this.baseTemplateRepository.existsByTemplateIdAndActiveYnAndDeletedAtIsNull(req.templateId(), BaseTemplate.ActiveYn.Y);
         if (!existTemplate) {
-          throw new TemplateException.NoTemplate();
+          throw new PostException.NoTemplate();
         }
 
         return PostBlockEntity.builder()

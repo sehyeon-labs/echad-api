@@ -3,6 +3,7 @@ package kr.co.onmediagroup.template.controller;
 import jakarta.validation.Valid;
 import kr.co.onmediagroup.config.annotation.Description;
 import kr.co.onmediagroup.template.model.dto.Post;
+import kr.co.onmediagroup.template.model.dto.PostBlock;
 import kr.co.onmediagroup.template.service.PostBlockService;
 import kr.co.onmediagroup.template.service.PostService;
 import kr.co.onmediagroup.user.model.dto.User;
@@ -46,7 +47,7 @@ public class PostController {
   ) {
     String userId = principal.getUserId();
     String postId = postCreateReq.customId();
-    List<Post.PostBlockReq> postBlockReqList = postCreateReq.postBlockReqList();
+    List<PostBlock.PostBlockReq> postBlockReqList = postCreateReq.postBlockReqList();
 
     this.postBlockService.saveBulk(
       userId,
