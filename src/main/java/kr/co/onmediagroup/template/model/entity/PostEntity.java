@@ -53,4 +53,8 @@ public class PostEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("sortOrder ASC")
     private List<PostBlockEntity> blocks = new ArrayList<>();
+
+    public void updateActiveYn(Post.ActiveYn activeYn) {
+        this.activeYn = activeYn;
+    }
 }

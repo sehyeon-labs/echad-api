@@ -46,4 +46,15 @@ public class PostService {
         res.setContent(content);
         return res;
     }
+
+    public void changeActive(String postId, String userId, Post.ActiveYn activeYn) {
+        PostEntity post = postRepository.findByPostIdAndDeletedAtIsNull(postId)
+                .orElseThrow(PostException.NoPost::new);
+
+        if (!post.getUserId().equals(userId)) {
+            throw new PostException.UnauthorizedPostAccess();
+        }
+
+        post.updateActiveYn(activeYn);
+    }
 }

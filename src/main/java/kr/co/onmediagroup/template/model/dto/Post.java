@@ -35,4 +35,9 @@ public class Post {
     List<PostBlock.PostBlockReq> postBlockReqList
   ){
   }
+
+  public record PostActiveUpdateReq(
+    @jakarta.validation.constraints.NotNull Post.ActiveYn activeYn
+  ) {
+  }
 }
