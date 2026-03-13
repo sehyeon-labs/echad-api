@@ -58,7 +58,7 @@ public class PostController {
 
   @PatchMapping("/change-active/{postId}")
   @Description("게시물 활성화 상태 변경")
-  @ResponseStatus(HttpStatus.OK)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   public void changeActive(
     @AuthenticationPrincipal User.UserPrincipal principal,
     @PathVariable String postId,
