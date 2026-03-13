@@ -27,7 +27,7 @@ public class PostService {
 
     public Post.PostRes findByPostId(String postId, String userId) {
         PostEntity post = postRepository.findByPostIdAndUserIdAndDeletedAtIsNull(postId, userId)
-                .orElseThrow(PostException.NoTemplate::new);
+                .orElseThrow(PostException.NoPost::new);
 
         List<PostBlockEntity> blocks = postBlockRepository.findAllByPostIdWithDetails(postId, BaseTemplate.ActiveYn.Y);
 

@@ -1,7 +1,8 @@
 package kr.co.onmediagroup.template.service;
 
-import kr.co.onmediagroup.exception.ForbiddenException;
+import kr.co.onmediagroup.template.exception.PostBlockException;
 import kr.co.onmediagroup.template.exception.PostException;
+import kr.co.onmediagroup.template.exception.TemplateException;
 import kr.co.onmediagroup.template.model.dto.BaseTemplate;
 import kr.co.onmediagroup.template.model.dto.Post;
 import kr.co.onmediagroup.template.model.dto.PostBlock;
@@ -42,7 +43,7 @@ public class PostBlockService {
       .map(req -> {
         boolean existTemplate = this.baseTemplateRepository.existsByTemplateIdAndActiveYnAndDeletedAtIsNull(req.templateId(), BaseTemplate.ActiveYn.Y);
         if (!existTemplate) {
-          throw new PostException.NoTemplate();
+          throw new TemplateException.NoTemplate();
         }
 
         return PostBlockEntity.builder()
@@ -57,35 +58,49 @@ public class PostBlockService {
     this.postBlockRepository.saveAll(blocks);
   }
 
-  public void updateOrders(String userId, String postId, List<PostBlock.PostBlockOrderReq> reqList) {
+  // 게시물 블록의 순서를 일괄 업데이트
+  public void updateOrders(
+    String userId,
+    String postId,
+    List<PostBlock.PostBlockOrderReq> reqList
+  ) {
+    // 소유권 검사
     validatePostOwnership(userId, postId);
 
     reqList.forEach(req -> {
       PostBlockEntity block = postBlockRepository.findByPostBlockIdAndPostId(req.postBlockId(), postId)
-              .orElseThrow(() -> new IllegalArgumentException("block not found for the post"));
+              .orElseThrow(PostBlockException.NoPostBlock::new);
       block.updateSortOrder(req.sortOrder());
     });
   }
 
-  public void swapOrders(String userId, String postId, PostBlock.PostBlockSwapReq swapReq) {
+  // 두 게시물 블록의 순서를 서로 교체
+  public void swapOrders(
+    String userId,
+    String postId,
+    Integer postBlockId1,
+    Integer postBlockId2
+  ) {
+    // 소유권 검사
     validatePostOwnership(userId, postId);
 
-    PostBlockEntity block1 = postBlockRepository.findByPostBlockIdAndPostId(swapReq.postBlockId1(), postId)
-            .orElseThrow(() -> new IllegalArgumentException("block1 not found for the post"));
-    PostBlockEntity block2 = postBlockRepository.findByPostBlockIdAndPostId(swapReq.postBlockId2(), postId)
-            .orElseThrow(() -> new IllegalArgumentException("block2 not found for the post"));
+    PostBlockEntity block1 = postBlockRepository.findByPostBlockIdAndPostId(postBlockId1, postId)
+            .orElseThrow(PostBlockException.NoPostBlock::new);
+    PostBlockEntity block2 = postBlockRepository.findByPostBlockIdAndPostId(postBlockId2, postId)
+            .orElseThrow(PostBlockException.NoPostBlock::new);
 
     Integer tempOrder = block1.getSortOrder();
     block1.updateSortOrder(block2.getSortOrder());
     block2.updateSortOrder(tempOrder);
   }
 
+  // 게시물의 소유권을 검증
   private void validatePostOwnership(String userId, String postId) {
     PostEntity post = postRepository.findById(postId)
-            .orElseThrow(() -> new IllegalArgumentException("post not found"));
+            .orElseThrow(PostException.NoPost::new);
 
     if (!post.getUserId().equals(userId)) {
-      throw new ForbiddenException("No permission to modify this post");
+      throw new PostException.UnauthorizedPostAccess();
     }
   }
 }

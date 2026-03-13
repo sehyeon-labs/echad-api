@@ -25,23 +25,34 @@ public class PostBlockController {
     @Description("게시물 블록 전체 순서 수정")
     @ResponseStatus(HttpStatus.OK)
     public void updateOrders(
-            @AuthenticationPrincipal User.UserPrincipal principal,
-            @PathVariable String postId,
-            @Valid @RequestBody List<PostBlock.PostBlockOrderReq> reqList
+      @AuthenticationPrincipal User.UserPrincipal principal,
+      @PathVariable String postId,
+      @Valid @RequestBody List<PostBlock.PostBlockOrderReq> reqList
     ) {
         String userId = principal.getUserId();
-        postBlockService.updateOrders(userId, postId, reqList);
+
+        this.postBlockService.updateOrders(
+          userId,
+          postId,
+          reqList
+        );
     }
 
     @PatchMapping("/{postId}/sort")
     @Description("게시물 블록 2개 순서 교환")
     @ResponseStatus(HttpStatus.OK)
     public void swapOrders(
-            @AuthenticationPrincipal User.UserPrincipal principal,
-            @PathVariable String postId,
-            @Valid @RequestBody PostBlock.PostBlockSwapReq swapReq
+      @AuthenticationPrincipal User.UserPrincipal principal,
+      @PathVariable String postId,
+      @Valid @RequestBody PostBlock.PostBlockSwapReq swapReq
     ) {
         String userId = principal.getUserId();
-        postBlockService.swapOrders(userId, postId, swapReq);
+
+        postBlockService.swapOrders(
+          userId,
+          postId,
+          swapReq.postBlockId1(),
+          swapReq.postBlockId2()
+        );
     }
 }

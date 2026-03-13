@@ -1,7 +1,7 @@
 package kr.co.onmediagroup.controllerAdvice;
 
-import kr.co.onmediagroup.template.exception.PostBlockException;
 import kr.co.onmediagroup.template.exception.PostException;
+import kr.co.onmediagroup.template.exception.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,27 +13,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class PostControllerAdvice extends BaseControllerAdvice {
-  @ExceptionHandler({PostException.class})
-  public ProblemDetail handlePostException(PostException ex) {
+public class TemplateControllerAdvice extends BaseControllerAdvice {
+  @ExceptionHandler({TemplateException.class})
+  public ProblemDetail handleTemplateException(TemplateException ex) {
     return this.exceptionResponse(HttpStatus.BAD_REQUEST, ex);
   }
 
-  @ExceptionHandler({
-    PostException.NoPost.class,
-    PostBlockException.NoPostBlock.class
-  })
+  @ExceptionHandler({TemplateException.NoTemplate.class,})
   public ProblemDetail handleNotFound(RuntimeException ex) {
     return this.exceptionResponse(HttpStatus.NOT_FOUND, ex);
   }
 
-  @ExceptionHandler({PostException.AlreadyExistPost.class})
-  public ProblemDetail handleAlreadyExistPost(PostException.AlreadyExistPost ex) {
+  @ExceptionHandler({TemplateException.AlreadyExistTemplate.class})
+  public ProblemDetail handleAlreadyExistTemplate(TemplateException.AlreadyExistTemplate ex) {
     return this.exceptionResponse(HttpStatus.CONFLICT, ex);
-  }
-
-  @ExceptionHandler({PostException.UnauthorizedPostAccess.class})
-  public ProblemDetail handleUnauthorizedPostAccess(PostException.UnauthorizedPostAccess ex) {
-    return this.exceptionResponse(HttpStatus.UNAUTHORIZED, ex);
   }
 }
