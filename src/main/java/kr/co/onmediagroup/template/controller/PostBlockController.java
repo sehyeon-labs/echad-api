@@ -21,6 +21,21 @@ public class PostBlockController {
 
     private final PostBlockService postBlockService;
 
+    @GetMapping("/{postBlockId}")
+    @Description("게시물 블록 상세 조회")
+    @ResponseStatus(HttpStatus.OK)
+    public PostBlock.PostBlockDetailDetailRes findById(
+      @AuthenticationPrincipal User.UserPrincipal principal,
+      @PathVariable Integer postBlockId
+    ) {
+        String userId = principal.getUserId();
+
+        return this.postBlockService.findById(
+          userId,
+          postBlockId
+        );
+    }
+
     @PutMapping("/{postId}")
     @Description("게시물 블록 전체 순서 수정")
     @ResponseStatus(HttpStatus.OK)

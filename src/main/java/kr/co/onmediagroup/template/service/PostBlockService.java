@@ -11,6 +11,7 @@ import kr.co.onmediagroup.template.model.entity.PostBlockEntity;
 import kr.co.onmediagroup.template.repository.PostRepository;
 import kr.co.onmediagroup.template.repository.PostBlockRepository;
 import kr.co.onmediagroup.template.repository.BaseTemplateRepository;
+import kr.co.onmediagroup.util.ModelConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,17 @@ public class PostBlockService {
   private final PostBlockRepository postBlockRepository;
   private final BaseTemplateRepository baseTemplateRepository;
   private final PostRepository postRepository;
+
+  @Transactional(readOnly = true)
+  public PostBlock.PostBlockDetailDetailRes findById(String userId, Integer postBlockId) {
+    PostBlockEntity block = postBlockRepository.findById(postBlockId)
+            .orElseThrow(PostBlockException.NoPostBlock::new);
+
+    // 권한 검사
+    validatePostOwnership(userId, block.getPostId());
+
+    return ModelConverter.MODEL_MAPPER.map(block, PostBlock.PostBlockDetailDetailRes.class);
+  }
 
   public void saveBulk(
     String userId,
