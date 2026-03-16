@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
+
 @Slf4j
 @Service
 @Transactional
@@ -26,6 +28,16 @@ public class PostBlockService {
   private final PostBlockRepository postBlockRepository;
   private final BaseTemplateRepository baseTemplateRepository;
   private final PostRepository postRepository;
+
+  public PostBlock.PostBlockDetailDetailRes findById(String userId, Integer postBlockId) {
+    PostBlockEntity block = postBlockRepository.findById(postBlockId)
+            .orElseThrow(PostBlockException.NoPostBlock::new);
+
+    // 권한 검사
+    validatePostOwnership(userId, block.getPostId());
+
+    return MODEL_MAPPER.map(block, PostBlock.PostBlockDetailDetailRes.class);
+  }
 
   public void saveBulk(
     String userId,

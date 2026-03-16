@@ -29,6 +29,25 @@ public class PostBlock {
     private Integer sortOrder;
   }
 
+  @Data
+  public static class PostBlockModel {
+    private Integer postBlockId;
+    private String postId;
+    private Integer templateId;
+    private Integer sortOrder;
+    private Map<String, String> customSchema;
+    private java.time.LocalDateTime createdAt;
+    private java.time.LocalDateTime updatedAt;
+  }
+
+  @Data
+  @lombok.EqualsAndHashCode(callSuper = true)
+  public static class PostBlockDetailDetailRes extends PostBlockModel {
+    private Post.PostRes post;
+    private BaseTemplate.TemplateRes template;
+    private List<PostBlockImageRes> images;
+  }
+
   public record PostBlockReq(
     @NotNull Integer templateId,
     @NotNull Integer sortOrder,
