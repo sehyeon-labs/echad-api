@@ -6,6 +6,8 @@ import kr.co.onmediagroup.template.model.entity.BaseTemplateEntity;
 import kr.co.onmediagroup.template.repository.BaseTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,17 @@ public class BaseTemplateService {
     return entityList.stream()
       .map(entity -> MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class))
       .toList();
+  }
+
+  @Transactional(readOnly = true)
+  public Page<BaseTemplate.TemplateRes> findAllForAdmin(Pageable pageable) {
+    Page<BaseTemplateEntity> page = baseTemplateRepository.findAll(pageable);
+
+    if (page.isEmpty()) {
+      throw new TemplateException.NoTemplate();
+    }
+
+    return page.map(entity -> MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class));
   }
 
   public BaseTemplate.TemplateRes create(
