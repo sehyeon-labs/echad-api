@@ -7,6 +7,10 @@ import kr.co.onmediagroup.template.model.dto.BaseTemplate;
 import kr.co.onmediagroup.template.service.BaseTemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +20,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/template")
 public class BaseTemplateAdminController {
   private final BaseTemplateService baseTemplateService;
+
+  @GetMapping("")
+  @CheckAdminUser
+  @Description("관리자용 템플릿 목록 조회")
+  @ResponseStatus(HttpStatus.OK)
+  public Page<BaseTemplate.TemplateRes> findAll(
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size
+  ) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("sortOrder").ascending());
+    return this.baseTemplateService.findAllTemplates(pageable);
+  }
 
   @PostMapping("")
   @CheckAdminUser
