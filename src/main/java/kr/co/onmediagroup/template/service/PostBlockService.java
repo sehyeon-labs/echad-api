@@ -28,7 +28,6 @@ public class PostBlockService {
   private final BaseTemplateRepository baseTemplateRepository;
   private final PostRepository postRepository;
 
-  @Transactional(readOnly = true)
   public PostBlock.PostBlockDetailDetailRes findById(String userId, Integer postBlockId) {
     PostBlockEntity block = postBlockRepository.findById(postBlockId)
             .orElseThrow(PostBlockException.NoPostBlock::new);
