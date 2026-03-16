@@ -11,13 +11,14 @@ import kr.co.onmediagroup.template.model.entity.PostBlockEntity;
 import kr.co.onmediagroup.template.repository.PostRepository;
 import kr.co.onmediagroup.template.repository.PostBlockRepository;
 import kr.co.onmediagroup.template.repository.BaseTemplateRepository;
-import kr.co.onmediagroup.util.ModelConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
 
 @Slf4j
 @Service
@@ -35,7 +36,7 @@ public class PostBlockService {
     // 권한 검사
     validatePostOwnership(userId, block.getPostId());
 
-    return ModelConverter.MODEL_MAPPER.map(block, PostBlock.PostBlockDetailDetailRes.class);
+    return MODEL_MAPPER.map(block, PostBlock.PostBlockDetailDetailRes.class);
   }
 
   public void saveBulk(
