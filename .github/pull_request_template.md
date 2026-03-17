@@ -1,5 +1,5 @@
 <!--
-## Git Pull Request(PR) Template Guide
+# Git Pull Request(PR) Template Guide
 
 ## Assignees & Reviewers
 **Reviewers**
@@ -8,13 +8,20 @@
 **Assignees**
 - {@현재사용자ID}
 
+---
+
 ### Type:
-> feat, fix, hotfix
+- **feat, fix, docs, style, refactor, test, build, ci, chore**
+- *참고: [Conventional Commits 공식 규격](https://www.conventionalcommits.org/en/v1.0.0/)*
+
+---
 
 ## Pull Request(PR) Title
 ```
 [{ISSUE-ID}] {type}: {summary}
 ```
+
+---
 
 ## Pull Request Template Description
 -->

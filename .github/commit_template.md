@@ -1,4 +1,4 @@
-## Commit Template Guide
+# Commit Template Guide
 
 ### Type:
 - **feat, fix, docs, style, refactor, test, build, ci, chore**

@@ -33,6 +33,16 @@ public class BaseTemplateAdminController {
     return this.baseTemplateService.findAllTemplates(pageable);
   }
 
+  @GetMapping("/{templateId}")
+  @CheckAdminUser
+  @Description("어드민용 템플릿 상세 조회")
+  @ResponseStatus(HttpStatus.OK)
+  public BaseTemplate.TemplateRes findById(
+    @PathVariable Integer templateId
+  ) {
+    return this.baseTemplateService.findTemplateOne(templateId);
+  }
+
   @PostMapping("")
   @CheckAdminUser
   @Description("템플릿 생성")
