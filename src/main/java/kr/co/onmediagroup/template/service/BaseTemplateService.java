@@ -46,6 +46,18 @@ public class BaseTemplateService {
     return entityPage.map(entity -> MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class));
   }
 
+  public BaseTemplate.TemplateRes findById(Integer templateId) {
+    BaseTemplateEntity entity = this.baseTemplateRepository.findById(templateId)
+      .filter(e -> e.getDeletedAt() == null)
+      .orElseThrow(TemplateException.NoTemplate::new);
+
+    if (entity.getActiveYn() == BaseTemplate.ActiveYn.N) {
+      throw new TemplateException.InactiveTemplate();
+    }
+
+    return MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class);
+  }
+
   public BaseTemplate.TemplateRes create(
     String title,
     BaseTemplate.Component component,

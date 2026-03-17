@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,5 +60,51 @@ class BaseTemplateServiceTest {
 
         // when & then
         assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.findAllTemplates(pageable));
+    }
+
+    @Test
+    @DisplayName("템플릿 상세 조회 성공")
+    void findById_Success() {
+        // given
+        Integer templateId = 1;
+        BaseTemplateEntity entity = BaseTemplateEntity.builder()
+                .templateId(templateId)
+                .title("Test Template")
+                .activeYn(BaseTemplate.ActiveYn.Y)
+                .build();
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
+
+        // when
+        BaseTemplate.TemplateRes result = baseTemplateService.findById(templateId);
+
+        // then
+        assertNotNull(result);
+        assertEquals("Test Template", result.getTitle());
+    }
+
+    @Test
+    @DisplayName("템플릿이 존재하지 않을 때 NoTemplate 예외 발생")
+    void findById_NoTemplate() {
+        // given
+        Integer templateId = 99;
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.empty());
+
+        // when & then
+        assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.findById(templateId));
+    }
+
+    @Test
+    @DisplayName("비활성 템플릿일 때 InactiveTemplate 예외 발생")
+    void findById_InactiveTemplate() {
+        // given
+        Integer templateId = 1;
+        BaseTemplateEntity entity = BaseTemplateEntity.builder()
+                .templateId(templateId)
+                .activeYn(BaseTemplate.ActiveYn.N)
+                .build();
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
+
+        // when & then
+        assertThrows(TemplateException.InactiveTemplate.class, () -> baseTemplateService.findById(templateId));
     }
 }
