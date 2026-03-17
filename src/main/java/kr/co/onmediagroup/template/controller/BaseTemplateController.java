@@ -6,10 +6,7 @@ import kr.co.onmediagroup.template.service.BaseTemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,12 @@ public class BaseTemplateController {
   @ResponseStatus(HttpStatus.OK)
   public List<BaseTemplate.TemplateRes> findActiveTemplates() {
     return this.baseTemplateService.findActiveTemplates();
+  }
+
+  @GetMapping("/{templateId}")
+  @Description("템플릿 상세 조회")
+  @ResponseStatus(HttpStatus.OK)
+  public BaseTemplate.TemplateRes findTemplate(@PathVariable Integer templateId) {
+    return this.baseTemplateService.findById(templateId);
   }
 }

@@ -13,4 +13,8 @@ public class TemplateException extends RuntimeException{
   public static class AlreadyExistTemplate extends TemplateException {
     public AlreadyExistTemplate() { super("already exist template"); }
   }
+
+  public static class InactiveTemplate extends TemplateException {
+    public InactiveTemplate() { super("inactive template"); }
+  }
 }

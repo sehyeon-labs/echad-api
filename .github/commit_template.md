@@ -1,9 +1,10 @@
 ## Commit Template Guide
 
 ### Type:
-> **feat, fix, docs, style, refactor, test, build, ci, chore**
-> 
-> 참고: [Conventional Commits 공식 규격](https://www.conventionalcommits.org/en/v1.0.0/)
+- **feat, fix, docs, style, refactor, test, build, ci, chore**
+- *참고: [Conventional Commits 공식 규격](https://www.conventionalcommits.org/en/v1.0.0/)*
+
+---
 
 ### Commit Message Description
 

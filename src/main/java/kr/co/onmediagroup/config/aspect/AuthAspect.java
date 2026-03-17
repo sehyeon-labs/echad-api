@@ -1,11 +1,9 @@
 package kr.co.onmediagroup.config.aspect;
 
-import kr.co.onmediagroup.config.annotation.CheckAdminUser;
 import kr.co.onmediagroup.config.annotation.CheckUserLevel;
 import kr.co.onmediagroup.exception.AuthException;
 import kr.co.onmediagroup.exception.ForbiddenException;
 import kr.co.onmediagroup.user.model.dto.User;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
