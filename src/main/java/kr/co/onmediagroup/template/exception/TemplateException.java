@@ -17,4 +17,8 @@ public class TemplateException extends RuntimeException{
   public static class InactiveTemplate extends TemplateException {
     public InactiveTemplate() { super("inactive template"); }
   }
+
+  public static class DeletedTemplate extends TemplateException {
+    public DeletedTemplate() { super("deleted template"); }
+  }
 }

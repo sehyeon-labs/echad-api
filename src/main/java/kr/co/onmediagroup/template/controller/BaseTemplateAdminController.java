@@ -60,4 +60,15 @@ public class BaseTemplateAdminController {
       templateCreateReq.sortOrder()
     );
   }
+
+  @PostMapping("/change-active/{templateId}")
+  @CheckAdminUser
+  @Description("템플릿 활성 상태 변경")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void updateActiveYn(
+    @PathVariable Integer templateId,
+    @Valid @RequestBody BaseTemplate.TemplateActiveUpdateReq templateActiveUpdateReq
+  ) {
+    this.baseTemplateService.updateActiveYn(templateId, templateActiveUpdateReq.activeYn());
+  }
 }

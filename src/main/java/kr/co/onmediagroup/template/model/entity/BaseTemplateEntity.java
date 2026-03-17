@@ -73,4 +73,8 @@ public class BaseTemplateEntity {
   @Column(name = "updated_at")
   @LastModifiedDate
   private LocalDateTime updatedAt;
+
+  public void updateActiveYn(BaseTemplate.ActiveYn activeYn) {
+    this.activeYn = activeYn;
+  }
 }

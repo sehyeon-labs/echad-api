@@ -66,4 +66,9 @@ public class BaseTemplate {
     Integer sortOrder
   ){
   }
+
+  public record TemplateActiveUpdateReq(
+    @NotNull ActiveYn activeYn
+  ){
+  }
 }
