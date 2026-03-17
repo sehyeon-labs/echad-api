@@ -72,7 +72,7 @@ class BaseTemplateServiceTest {
                 .title("Test Template")
                 .activeYn(BaseTemplate.ActiveYn.Y)
                 .build();
-        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
+        when(baseTemplateRepository.findByTemplateIdAndDeletedAtIsNull(templateId)).thenReturn(Optional.of(entity));
 
         // when
         BaseTemplate.TemplateRes result = baseTemplateService.findById(templateId);
@@ -87,7 +87,7 @@ class BaseTemplateServiceTest {
     void findById_NoTemplate() {
         // given
         Integer templateId = 99;
-        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.empty());
+        when(baseTemplateRepository.findByTemplateIdAndDeletedAtIsNull(templateId)).thenReturn(Optional.empty());
 
         // when & then
         assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.findById(templateId));
@@ -102,7 +102,7 @@ class BaseTemplateServiceTest {
                 .templateId(templateId)
                 .activeYn(BaseTemplate.ActiveYn.N)
                 .build();
-        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
+        when(baseTemplateRepository.findByTemplateIdAndDeletedAtIsNull(templateId)).thenReturn(Optional.of(entity));
 
         // when & then
         assertThrows(TemplateException.InactiveTemplate.class, () -> baseTemplateService.findById(templateId));

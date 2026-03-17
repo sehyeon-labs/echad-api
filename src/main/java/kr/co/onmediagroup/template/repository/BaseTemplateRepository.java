@@ -8,11 +8,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BaseTemplateRepository extends JpaRepository<BaseTemplateEntity, Integer> {
+
   List<BaseTemplateEntity> findByActiveYnAndDeletedAtIsNullOrderBySortOrderDesc(BaseTemplate.ActiveYn activeYn);
+
   boolean existsByTitleAndComponentAndComponentType(String title, BaseTemplate.Component component, Integer componentType);
+
   boolean existsByTemplateIdAndActiveYnAndDeletedAtIsNull(Integer templateId, BaseTemplate.ActiveYn activeYn);
+
   Page<BaseTemplateEntity> findAllByDeletedAtIsNull(Pageable pageable);
+
+  Optional<BaseTemplateEntity> findByTemplateIdAndDeletedAtIsNull(Integer templateId);
 }

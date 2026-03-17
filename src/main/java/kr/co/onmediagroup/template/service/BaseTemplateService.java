@@ -47,8 +47,7 @@ public class BaseTemplateService {
   }
 
   public BaseTemplate.TemplateRes findById(Integer templateId) {
-    BaseTemplateEntity entity = this.baseTemplateRepository.findById(templateId)
-      .filter(e -> e.getDeletedAt() == null)
+    BaseTemplateEntity entity = this.baseTemplateRepository.findByTemplateIdAndDeletedAtIsNull(templateId)
       .orElseThrow(TemplateException.NoTemplate::new);
 
     if (entity.getActiveYn() == BaseTemplate.ActiveYn.N) {
