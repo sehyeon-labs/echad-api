@@ -107,4 +107,35 @@ class BaseTemplateServiceTest {
         // when & then
         assertThrows(TemplateException.InactiveTemplate.class, () -> baseTemplateService.findById(templateId));
     }
+
+    @Test
+    @DisplayName("어드민용 템플릿 상세 조회 성공 (비활성/삭제 포함)")
+    void findAdminTemplateById_Success() {
+        // given
+        Integer templateId = 1;
+        BaseTemplateEntity entity = BaseTemplateEntity.builder()
+                .templateId(templateId)
+                .title("Admin Test Template")
+                .activeYn(BaseTemplate.ActiveYn.N) // 비활성 상태
+                .build();
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
+
+        // when
+        BaseTemplate.TemplateRes result = baseTemplateService.findAdminTemplateById(templateId);
+
+        // then
+        assertNotNull(result);
+        assertEquals("Admin Test Template", result.getTitle());
+    }
+
+    @Test
+    @DisplayName("어드민용 조회 시 템플릿이 존재하지 않을 때 NoTemplate 예외 발생")
+    void findAdminTemplateById_NoTemplate() {
+        // given
+        Integer templateId = 999;
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.empty());
+
+        // when & then
+        assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.findAdminTemplateById(templateId));
+    }
 }

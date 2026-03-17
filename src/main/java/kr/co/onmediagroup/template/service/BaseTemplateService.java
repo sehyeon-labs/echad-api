@@ -57,6 +57,13 @@ public class BaseTemplateService {
     return MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class);
   }
 
+  public BaseTemplate.TemplateRes findAdminTemplateById(Integer templateId) {
+    BaseTemplateEntity entity = this.baseTemplateRepository.findById(templateId)
+      .orElseThrow(TemplateException.NoTemplate::new);
+
+    return MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class);
+  }
+
   public BaseTemplate.TemplateRes create(
     String title,
     BaseTemplate.Component component,
