@@ -59,6 +59,7 @@ public class BaseTemplateEntity {
   private Integer sortOrder = 0;
 
   @Builder.Default
+  @Setter
   @Enumerated(EnumType.STRING)
   @Column(name = "active_yn")
   private BaseTemplate.ActiveYn activeYn = BaseTemplate.ActiveYn.N;
@@ -73,8 +74,4 @@ public class BaseTemplateEntity {
   @Column(name = "updated_at")
   @LastModifiedDate
   private LocalDateTime updatedAt;
-
-  public void updateActiveYn(BaseTemplate.ActiveYn activeYn) {
-    this.activeYn = activeYn;
-  }
 }

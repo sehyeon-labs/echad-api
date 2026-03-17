@@ -94,7 +94,10 @@ public class BaseTemplateService {
     return MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class);
   }
 
-  public void updateActiveYn(Integer templateId, BaseTemplate.ActiveYn activeYn) {
+  public void updateActiveYn(
+    Integer templateId,
+    BaseTemplate.ActiveYn activeYn
+  ) {
     BaseTemplateEntity entity = this.baseTemplateRepository.findById(templateId)
       .orElseThrow(TemplateException.NoTemplate::new);
 
@@ -102,6 +105,8 @@ public class BaseTemplateService {
       throw new TemplateException.DeletedTemplate();
     }
 
-    entity.updateActiveYn(activeYn);
+    entity.setActiveYn(activeYn);
+
+    this.baseTemplateRepository.save(entity);
   }
 }
