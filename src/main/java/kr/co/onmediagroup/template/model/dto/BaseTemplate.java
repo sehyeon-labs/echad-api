@@ -68,7 +68,7 @@ public class BaseTemplate {
   }
 
   public record TemplateActiveUpdateReq(
-    @NotNull ActiveYn activeYn
+    @NotNull @Size(max = 1) BaseTemplate.ActiveYn activeYn
   ){
   }
 }
