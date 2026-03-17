@@ -40,7 +40,7 @@ public class BaseTemplateAdminController {
   public BaseTemplate.TemplateRes findById(
     @PathVariable Integer templateId
   ) {
-    return this.baseTemplateService.findAdminTemplateById(templateId);
+    return this.baseTemplateService.findTemplateOne(templateId);
   }
 
   @PostMapping("")

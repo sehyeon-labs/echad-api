@@ -121,7 +121,7 @@ class BaseTemplateServiceTest {
         when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
 
         // when
-        BaseTemplate.TemplateRes result = baseTemplateService.findAdminTemplateById(templateId);
+        BaseTemplate.TemplateRes result = baseTemplateService.findTemplateOne(templateId);
 
         // then
         assertNotNull(result);
@@ -136,6 +136,6 @@ class BaseTemplateServiceTest {
         when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.empty());
 
         // when & then
-        assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.findAdminTemplateById(templateId));
+        assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.findTemplateOne(templateId));
     }
 }

@@ -57,7 +57,7 @@ public class BaseTemplateService {
     return MODEL_MAPPER.map(entity, BaseTemplate.TemplateRes.class);
   }
 
-  public BaseTemplate.TemplateRes findAdminTemplateById(Integer templateId) {
+  public BaseTemplate.TemplateRes findTemplateOne(Integer templateId) {
     BaseTemplateEntity entity = this.baseTemplateRepository.findById(templateId)
       .orElseThrow(TemplateException.NoTemplate::new);
 
