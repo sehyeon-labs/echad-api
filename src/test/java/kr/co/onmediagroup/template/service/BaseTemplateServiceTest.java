@@ -138,4 +138,48 @@ class BaseTemplateServiceTest {
         // when & then
         assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.findTemplateOne(templateId));
     }
+
+    @Test
+    @DisplayName("템플릿 활성 상태 변경 성공")
+    void updateActiveYn_Success() {
+        // given
+        Integer templateId = 1;
+        BaseTemplateEntity entity = BaseTemplateEntity.builder()
+                .templateId(templateId)
+                .activeYn(BaseTemplate.ActiveYn.N)
+                .build();
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
+
+        // when
+        baseTemplateService.updateActiveYn(templateId, BaseTemplate.ActiveYn.Y);
+
+        // then
+        assertEquals(BaseTemplate.ActiveYn.Y, entity.getActiveYn());
+    }
+
+    @Test
+    @DisplayName("삭제된 템플릿 활성 상태 변경 시 DeletedTemplate 예외 발생")
+    void updateActiveYn_DeletedFail() {
+        // given
+        Integer templateId = 1;
+        BaseTemplateEntity entity = BaseTemplateEntity.builder()
+                .templateId(templateId)
+                .deletedAt(java.time.LocalDateTime.now())
+                .build();
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.of(entity));
+
+        // when & then
+        assertThrows(TemplateException.DeletedTemplate.class, () -> baseTemplateService.updateActiveYn(templateId, BaseTemplate.ActiveYn.Y));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 템플릿 활성 상태 변경 시 NoTemplate 예외 발생")
+    void updateActiveYn_NoTemplate() {
+        // given
+        Integer templateId = 999;
+        when(baseTemplateRepository.findById(templateId)).thenReturn(Optional.empty());
+
+        // when & then
+        assertThrows(TemplateException.NoTemplate.class, () -> baseTemplateService.updateActiveYn(templateId, BaseTemplate.ActiveYn.Y));
+    }
 }

@@ -59,6 +59,7 @@ public class BaseTemplateEntity {
   private Integer sortOrder = 0;
 
   @Builder.Default
+  @Setter
   @Enumerated(EnumType.STRING)
   @Column(name = "active_yn")
   private BaseTemplate.ActiveYn activeYn = BaseTemplate.ActiveYn.N;
