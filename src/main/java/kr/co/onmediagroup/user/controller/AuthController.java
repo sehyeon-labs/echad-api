@@ -2,6 +2,7 @@ package kr.co.onmediagroup.user.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import kr.co.onmediagroup.exception.AuthException;
 import kr.co.onmediagroup.user.model.dto.User;
 import kr.co.onmediagroup.user.model.dto.UserInfo;
 import kr.co.onmediagroup.user.service.AuthService;
@@ -29,6 +30,10 @@ public class AuthController {
   public User.UserLoginResponse authMe(
     @AuthenticationPrincipal User.UserPrincipal principal
   ) {
+    if (principal == null) {
+      throw new AuthException.UnauthorizedMe();
+    }
+
     String userId = principal.getUserId();
 
     UserInfo.UserInfoName userInfoName = this.authService.getUserInfoName(userId);
