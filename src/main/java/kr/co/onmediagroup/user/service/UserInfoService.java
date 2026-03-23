@@ -19,14 +19,6 @@ public class UserInfoService {
 
   private final UserInfoRepository userInfoRepository;
 
-  /**
-   * 자기 자신 정보 수정
-   *
-   * @param userId 유저 아이디
-   * @param groomName 신랑 이름
-   * @param brideName 신부 이름
-   * @param weddingDate 예식일
-   */
   public void updateMe(
     String userId,
     String groomName,
