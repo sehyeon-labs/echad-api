@@ -155,6 +155,12 @@ public class User {
   ){
   }
 
+  public record EmailVerifyReq(
+    @NotBlank @Email String email,
+    @NotBlank String code
+  ){
+  }
+
 
   /**
    * JWT 사용자 정보 DTO

@@ -18,4 +18,9 @@ public class AuthException extends RuntimeException{
   public static class UnauthorizedMe extends AuthException{
     public UnauthorizedMe() { super("unauthorized"); }
   }
+
+  // 인증번호 불일치 또는 만료
+  public static class InvalidVerificationCode extends AuthException {
+    public InvalidVerificationCode() { super("invalid verification code"); }
+  }
 }

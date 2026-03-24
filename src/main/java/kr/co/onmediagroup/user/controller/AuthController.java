@@ -137,4 +137,13 @@ public class AuthController {
   ) {
     this.authService.sendVerificationEmail(emailSendReq.email());
   }
+
+  @PostMapping("/user/email-verify")
+  @Description("이메일 인증번호 확인")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void verifyEmailCode(
+    @Valid @RequestBody User.EmailVerifyReq emailVerifyReq
+  ) {
+    this.authService.verifyEmailCode(emailVerifyReq.email(), emailVerifyReq.code());
+  }
 }
