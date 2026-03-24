@@ -22,4 +22,8 @@ public class UserException extends RuntimeException{
   public static class SameAsCurrentPassword extends UserException{
     public SameAsCurrentPassword() { super("same as current password"); }
   }
+
+  public static class EmailSendFailed extends UserException{
+    public EmailSendFailed() { super("email send failed"); }
+  }
 }
