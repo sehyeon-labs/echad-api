@@ -213,7 +213,7 @@ public class AuthService {
       MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
       helper.setTo(email);
-      helper.setSubject("[에하드] 본인인증 인증번호 안내");
+      helper.setSubject("[ECHAD] 본인인증 인증번호 안내");
 
       // Thymeleaf 템플릿 처리
       Context context = new Context();
