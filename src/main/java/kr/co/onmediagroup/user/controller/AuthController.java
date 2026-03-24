@@ -128,4 +128,13 @@ public class AuthController {
 
     this.authService.updatePassword(userId, userPasswordUpdateReq);
   }
+
+  @PostMapping("/user/email-send")
+  @Description("이메일 인증번호 발송")
+  @ResponseStatus(HttpStatus.OK)
+  public void sendEmailVerification(
+    @Valid @RequestBody User.EmailSendReq emailSendReq
+  ) {
+    this.authService.sendVerificationEmail(emailSendReq.email());
+  }
 }

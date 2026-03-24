@@ -1,6 +1,7 @@
 package kr.co.onmediagroup.user.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -146,6 +147,11 @@ public class User {
     @NotBlank String currentPassword,
     @NotBlank String newPassword,
     @NotBlank String newPasswordConfirm
+  ){
+  }
+
+  public record EmailSendReq(
+    @NotBlank @Email String email
   ){
   }
 
