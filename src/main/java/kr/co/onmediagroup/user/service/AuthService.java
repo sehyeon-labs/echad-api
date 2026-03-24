@@ -235,4 +235,17 @@ public class AuthService {
     int code = random.nextInt(900000) + 100000;
     return String.valueOf(code);
   }
+
+  // 이메일 인증번호 검증
+  public void verifyEmailCode(String email, String code) {
+    String redisKey = EMAIL_VERIFY_KEY_PREFIX + email;
+    String storedCode = redisTemplate.opsForValue().get(redisKey);
+
+    if (storedCode == null || !storedCode.equals(code)) {
+      throw new AuthException.InvalidVerificationCode();
+    }
+
+    // 인증 성공 시 Redis에서 해당 키 삭제
+    redisTemplate.delete(redisKey);
+  }
 }
