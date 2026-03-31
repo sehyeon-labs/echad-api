@@ -23,6 +23,7 @@ import java.time.Duration;
 @RequestMapping("/auth")
 public class AuthController {
   private final AuthService authService;
+  private final kr.co.onmediagroup.api.naver.service.NaverService naverService;
 
   @GetMapping("/me")
   @Description("로그인 사용자 정보 조회")
@@ -145,5 +146,34 @@ public class AuthController {
     @Valid @RequestBody User.EmailVerifyReq emailVerifyReq
   ) {
     this.authService.verifyEmailCode(emailVerifyReq.email(), emailVerifyReq.code());
+  }
+
+  @DeleteMapping("/user/delete")
+  @Description("사용자 회원 탈퇴")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteUser(
+    @AuthenticationPrincipal User.UserPrincipal principal,
+    @CookieValue(value = "access_token", required = false) String accessToken,
+    HttpServletResponse response
+  ) throws java.net.URISyntaxException {
+    if (principal == null) {
+      throw new AuthException.UnauthorizedMe();
+    }
+
+    String userId = principal.getUserId();
+
+    // 회원 탈퇴 및 네이버 연동 해제 로직 호출
+    this.naverService.withdraw(userId, accessToken);
+
+    // 쿠키 삭제
+    ResponseCookie cookie = ResponseCookie.from("access_token", "")
+      .httpOnly(true)
+      .secure(false)
+      .sameSite("Strict")
+      .path("/")
+      .maxAge(0)
+      .build();
+
+    response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
   }
 }

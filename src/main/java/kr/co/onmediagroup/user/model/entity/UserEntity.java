@@ -27,7 +27,7 @@ public class UserEntity {
 
   @Setter
   @Size(max = 255)
-  @Column(name = "user_password")
+  @Column(name = "user_password", nullable = true)
   private String userPassword;
 
   @Setter
@@ -52,6 +52,32 @@ public class UserEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "user_level")
   private User.Level userLevel = User.Level.USER;
+
+  @Setter
+  @Builder.Default
+  @Enumerated(EnumType.STRING)
+  @Column(name = "social_type")
+  private User.SocialType socialType = User.SocialType.NORMAL;
+
+  @Setter
+  @Size(max = 255)
+  @Column(name = "social_id")
+  private String socialId;
+
+  @Setter
+  @Size(max = 100)
+  @Column(name = "user_name")
+  private String userName;
+
+  @Setter
+  @Size(max = 10)
+  @Column(name = "user_age")
+  private String userAge;
+
+  @Setter
+  @Enumerated(EnumType.STRING)
+  @Column(name = "user_gender")
+  private User.Gender userGender;
 
   @Setter
   @Builder.Default

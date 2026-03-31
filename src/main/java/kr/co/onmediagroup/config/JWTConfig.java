@@ -28,4 +28,12 @@ public class JWTConfig {
     this.expiredSeconds = expiredSeconds;
     this.algorithm = Algorithm.HMAC256(signKey.getBytes());
   }
+
+  public int getExpiredSeconds() {
+    return expiredSeconds;
+  }
+
+  public Algorithm getAlgorithm() {
+    return algorithm;
+  }
 }
