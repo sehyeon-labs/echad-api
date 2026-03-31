@@ -35,13 +35,11 @@ public class UserInfoEntity {
   private String userId;
 
   @Setter
-  @NotBlank
   @Size(max = 100)
   @Column(name = "groom_name")
   private String groomName;
 
   @Setter
-  @NotBlank
   @Size(max = 100)
   @Column(name = "bride_name")
   private String brideName;

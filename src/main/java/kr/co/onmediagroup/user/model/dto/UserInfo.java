@@ -47,9 +47,9 @@ public class UserInfo {
   }
 
   public record UserInfoUpdateMeReq(
-    @NotBlank @Size(max = 100) String groomName,
-    @NotBlank @Size(max = 100) String brideName,
-    @NotNull LocalDateTime weddingDate
+    @Size(max = 100) String groomName,
+    @Size(max = 100) String brideName,
+    LocalDateTime weddingDate
   ){
   }
 }

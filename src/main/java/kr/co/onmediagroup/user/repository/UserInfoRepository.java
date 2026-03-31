@@ -1,5 +1,6 @@
 package kr.co.onmediagroup.user.repository;
 
+import jakarta.validation.constraints.Size;
 import kr.co.onmediagroup.user.model.dto.UserInfo;
 import kr.co.onmediagroup.user.model.entity.UserInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

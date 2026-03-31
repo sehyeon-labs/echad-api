@@ -17,27 +17,61 @@ import java.util.List;
 public class User {
 
   @Getter
-  @AllArgsConstructor
   public enum VerifiedYn{
     Y("Y"),
     N("N");
     private final String verifiedYn;
+
+    VerifiedYn(String verifiedYn) {
+      this.verifiedYn = verifiedYn;
+    }
   }
 
   @Getter
-  @AllArgsConstructor
   public enum Level{
     ADMIN("ADMIN"),
     USER("USER");
     private final String level;
+
+    Level(String level) {
+      this.level = level;
+    }
   }
 
   @Getter
-  @AllArgsConstructor
   public enum ActiveYn{
     Y("Y"),
     N("N");
     private final String active;
+
+    ActiveYn(String active) {
+      this.active = active;
+    }
+  }
+
+  @Getter
+  public enum SocialType{
+    NORMAL("NORMAL"),
+    NAVER("NAVER"),
+    KAKAO("KAKAO"),
+    GOOGLE("GOOGLE");
+    private final String socialType;
+
+    SocialType(String socialType) {
+      this.socialType = socialType;
+    }
+  }
+
+  @Getter
+  public enum Gender{
+    M("M"),
+    F("F"),
+    N("N"); // Not specified
+    private final String gender;
+
+    Gender(String gender) {
+      this.gender = gender;
+    }
   }
 
   @Data
@@ -48,6 +82,11 @@ public class User {
     private String phoneNumber;
     private VerifiedYn phoneVerifiedYn;
     private Level userLevel;
+    private SocialType socialType;
+    private String socialId;
+    private String userName;
+    private String userAge;
+    private Gender userGender;
     private ActiveYn activeYn;
     private Integer loginFailCount;
     private LocalDateTime createdAt;
