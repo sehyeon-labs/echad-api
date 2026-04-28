@@ -1,15 +1,29 @@
 CREATE TABLE `user` (
   user_id VARCHAR(255) NOT NULL PRIMARY KEY COMMENT 'PK',
-  user_password VARCHAR(255) NOT NULL COMMENT '비밀번호',
+  user_password VARCHAR(255) NULL COMMENT '비밀번호',
   user_email VARCHAR(255) NOT NULL COMMENT '이메일',
   phone_number VARCHAR(20) COMMENT '휴대폰 번호 (국가번호 포함)',
   phone_verified_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '휴대폰 인증 여부',
   user_level ENUM('ADMIN', 'USER') NOT NULL COMMENT '레벨',
+  social_type ENUM('NORMAL', 'NAVER', 'KAKAO', 'GOOGLE') NOT NULL DEFAULT 'NORMAL' COMMENT '소셜 로그인 타입',
+  social_id VARCHAR(255) NULL COMMENT '소셜 계정 ID',
+  user_name VARCHAR(100) NULL COMMENT '사용자 이름',
+  user_age VARCHAR(10) NULL COMMENT '사용자 연령대',
+  user_gender ENUM('M', 'F', 'N') NULL COMMENT '사용자 성별',
   active_yn CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '활동상태',
   login_fail_count INT DEFAULT 0 NOT NULL COMMENT '로그인 실패 횟수',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시'
 ) COMMENT='유저';
+
+-- ECH-45: ALTER TABLE (기존 DB 적용용)
+-- ALTER TABLE `user`
+--   MODIFY COLUMN `user_password` VARCHAR(255) NULL COMMENT '비밀번호',
+--   ADD COLUMN `social_type` ENUM('NORMAL', 'NAVER', 'KAKAO', 'GOOGLE') NOT NULL DEFAULT 'NORMAL' COMMENT '소셜 로그인 타입' AFTER `user_level`,
+--   ADD COLUMN `social_id` VARCHAR(255) NULL COMMENT '소셜 계정 ID' AFTER `social_type`,
+--   ADD COLUMN `user_name` VARCHAR(100) NULL COMMENT '사용자 이름' AFTER `social_id`,
+--   ADD COLUMN `user_age` VARCHAR(10) NULL COMMENT '사용자 연령대' AFTER `user_name`,
+--   ADD COLUMN `user_gender` ENUM('M', 'F', 'N') NULL COMMENT '사용자 성별' AFTER `user_age`;
 
 CREATE TABLE user_info (
   info_id VARCHAR(255) NOT NULL PRIMARY KEY COMMENT 'PK',

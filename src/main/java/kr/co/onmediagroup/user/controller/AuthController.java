@@ -75,8 +75,8 @@ public class AuthController {
       .userId(model.getUser().getUserId())
       .userLevel(model.getUser().getUserLevel())
       .activeYn(model.getUser().getActiveYn())
-      .groomName(model.getUserInfo().getGroomName())
-      .brideName(model.getUserInfo().getBrideName())
+      .groomName(model.getUserInfo() != null ? model.getUserInfo().getGroomName() : null)
+      .brideName(model.getUserInfo() != null ? model.getUserInfo().getBrideName() : null)
       .build();
 
     return res;

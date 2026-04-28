@@ -1,5 +1,6 @@
 package kr.co.onmediagroup.user.controller;
 
+import jakarta.validation.Valid;
 import kr.co.onmediagroup.config.annotation.CheckAdminUser;
 import kr.co.onmediagroup.config.annotation.Description;
 import kr.co.onmediagroup.user.model.dto.User;
@@ -17,6 +18,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/user")
 public class UserAdminController {
   private final UserService userService;
+
+  @PostMapping("")
+  @CheckAdminUser
+  @Description("관리자 계정 생성")
+  @ResponseStatus(HttpStatus.CREATED)
+  public User.UserJoinRes createAdminUser(
+    @Valid @RequestBody User.AdminUserJoinReq req
+  ) {
+    return userService.createAdminUser(req);
+  }
 
   @GetMapping("")
   @CheckAdminUser

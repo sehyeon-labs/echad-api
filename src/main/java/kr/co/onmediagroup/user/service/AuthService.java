@@ -78,8 +78,13 @@ public class AuthService {
       throw new LoginException.DeactivatedUser(currentLoginFailCount);
     }
 
-    // 비밀번호 확인
+    // 비밀번호 확인 (소셜 로그인 계정은 password가 null → 일반 로그인 불가)
     String userPwHash = userEntity.getUserPassword();
+    if (userPwHash == null) {
+      userEntity = userEntity.increaseFailedLogin(maxLoginFailCount);
+      this.userRepository.save(userEntity);
+      throw new LoginException.InvalidPassword(userEntity.getLoginFailCount());
+    }
     boolean isMatchedPwd = this.passwordEncoder.matches(userPassword, userPwHash);
     log.info("로그인 확인 : {}", userEntity.getLoginFailCount());
 
@@ -98,9 +103,9 @@ public class AuthService {
     // 토큰 발급
     String token = this.jwtUtil.createToken(userEntity);
 
-    // 유저 상세 정보 조회
+    // 유저 상세 정보 조회 (어드민 계정은 UserInfo 없어도 로그인 허용)
     UserInfoEntity userInfoEntity = this.userInfoRepository.findByUserId(userEntity.getUserId());
-    if (userInfoEntity == null) {
+    if (userInfoEntity == null && userEntity.getUserLevel() != User.Level.ADMIN) {
       throw new UserInfoException.NoUserInfo();
     }
 
@@ -110,10 +115,13 @@ public class AuthService {
       .activeYn(userEntity.getActiveYn())
       .build();
 
-    UserInfo.UserInfoName userInfoName = UserInfo.UserInfoName.builder()
-      .groomName(userInfoEntity.getGroomName())
-      .brideName(userInfoEntity.getBrideName())
-      .build();
+    UserInfo.UserInfoName userInfoName = null;
+    if (userInfoEntity != null) {
+      userInfoName = UserInfo.UserInfoName.builder()
+        .groomName(userInfoEntity.getGroomName())
+        .brideName(userInfoEntity.getBrideName())
+        .build();
+    }
 
     return User.UserLoginModel.builder()
       .token(token)
