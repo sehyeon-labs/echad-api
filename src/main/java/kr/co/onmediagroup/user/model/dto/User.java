@@ -1,6 +1,7 @@
 package kr.co.onmediagroup.user.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +39,25 @@ public class User {
     Y("Y"),
     N("N");
     private final String active;
+  }
+
+  @Getter
+  @AllArgsConstructor
+  public enum SocialType{
+    NORMAL("NORMAL"),
+    NAVER("NAVER"),
+    KAKAO("KAKAO"),
+    GOOGLE("GOOGLE");
+    private final String socialType;
+  }
+
+  @Getter
+  @AllArgsConstructor
+  public enum Gender{
+    M("M"),
+    F("F"),
+    N("N");
+    private final String gender;
   }
 
   @Data
@@ -88,6 +108,7 @@ public class User {
   @Data
   @AllArgsConstructor
   @NoArgsConstructor
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   public static class UserJoinRes {
     private String userId;
     private String userEmail;
@@ -96,6 +117,7 @@ public class User {
     private String groomName;
     private String brideName;
     private LocalDateTime weddingDate;
+    private String userName;
   }
 
 
@@ -158,6 +180,15 @@ public class User {
   public record EmailVerifyReq(
     @NotBlank @Email String email,
     @NotBlank String code
+  ){
+  }
+
+  public record AdminUserJoinReq(
+    @NotBlank @Size(max = 255) String userId,
+    @NotBlank @Size(max = 255) String userPassword,
+    @NotBlank @Email String userEmail,
+    @Size(max = 100) String userName,
+    String phoneNumber
   ){
   }
 

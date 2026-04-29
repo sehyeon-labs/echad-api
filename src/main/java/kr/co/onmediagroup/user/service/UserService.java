@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,40 @@ import static kr.co.onmediagroup.util.ModelConverter.MODEL_MAPPER;
 public class UserService {
   private final UserRepository userRepository;
   private final UserInfoRepository userInfoRepository;
+  private final PasswordEncoder passwordEncoder;
+
+  // 어드민 계정 생성
+  public User.UserJoinRes createAdminUser(User.AdminUserJoinReq req) {
+    if (userRepository.existsById(req.userId())) {
+      throw new UserException.AlreadyExistUserId();
+    }
+
+    if (userRepository.existsByUserEmail(req.userEmail())) {
+      throw new UserException.AlreadyExistUserEmail();
+    }
+
+    UserEntity userEntity = UserEntity.builder()
+      .userId(req.userId())
+      .userPassword(passwordEncoder.encode(req.userPassword()))
+      .userEmail(req.userEmail())
+      .userName(req.userName())
+      .phoneNumber(req.phoneNumber())
+      .userLevel(User.Level.ADMIN)
+      .build();
+
+    try {
+      userRepository.save(userEntity);
+    } catch (org.springframework.dao.DataIntegrityViolationException e) {
+      throw new UserException.AlreadyExistUserId();
+    }
+
+    return User.UserJoinRes.builder()
+      .userId(userEntity.getUserId())
+      .userEmail(userEntity.getUserEmail())
+      .phoneNumber(userEntity.getPhoneNumber())
+      .userName(userEntity.getUserName())
+      .build();
+  }
 
   // 유저 목록 조회
   public Page<User.UserMeRes> getUsers(Pageable pageable) {

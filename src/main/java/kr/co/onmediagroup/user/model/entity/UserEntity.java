@@ -56,6 +56,32 @@ public class UserEntity {
   @Setter
   @Builder.Default
   @Enumerated(EnumType.STRING)
+  @Column(name = "social_type")
+  private User.SocialType socialType = User.SocialType.NORMAL;
+
+  @Setter
+  @Size(max = 255)
+  @Column(name = "social_id")
+  private String socialId;
+
+  @Setter
+  @Size(max = 100)
+  @Column(name = "user_name")
+  private String userName;
+
+  @Setter
+  @Size(max = 10)
+  @Column(name = "user_age")
+  private String userAge;
+
+  @Setter
+  @Enumerated(EnumType.STRING)
+  @Column(name = "user_gender")
+  private User.Gender userGender;
+
+  @Setter
+  @Builder.Default
+  @Enumerated(EnumType.STRING)
   @Column(name = "active_yn")
   private User.ActiveYn activeYn = User.ActiveYn.Y;
 

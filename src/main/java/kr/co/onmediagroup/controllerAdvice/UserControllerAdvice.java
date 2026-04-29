@@ -24,6 +24,11 @@ public class UserControllerAdvice extends BaseControllerAdvice {
     return this.exceptionResponse(HttpStatus.CONFLICT, ex);
   }
 
+  @ExceptionHandler({UserException.AlreadyExistUserEmail.class})
+  public ProblemDetail handleAlreadyExistUserEmailException(UserException.AlreadyExistUserEmail ex) {
+    return this.exceptionResponse(HttpStatus.CONFLICT, ex);
+  }
+
   @ExceptionHandler({UserException.UserNotFound.class})
   public ProblemDetail handleUserNotFoundException(UserException.UserNotFound ex) {
     return this.exceptionResponse(HttpStatus.NOT_FOUND, ex);
