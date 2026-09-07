@@ -1,0 +1,86 @@
+CREATE TABLE `user` (
+  user_id VARCHAR(255) NOT NULL PRIMARY KEY COMMENT 'PK',
+  user_password VARCHAR(255) NULL COMMENT '비밀번호',
+  user_email VARCHAR(255) NOT NULL COMMENT '이메일',
+  phone_number VARCHAR(20) COMMENT '휴대폰 번호 (국가번호 포함)',
+  phone_verified_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '휴대폰 인증 여부',
+  user_level ENUM('ADMIN', 'USER') NOT NULL COMMENT '레벨',
+  social_type ENUM('NORMAL', 'NAVER', 'KAKAO', 'GOOGLE') NOT NULL DEFAULT 'NORMAL' COMMENT '소셜 로그인 타입',
+  social_id VARCHAR(255) NULL COMMENT '소셜 계정 ID',
+  user_name VARCHAR(100) NULL COMMENT '사용자 이름',
+  user_age VARCHAR(10) NULL COMMENT '사용자 연령대',
+  user_gender ENUM('M', 'F', 'N') NULL COMMENT '사용자 성별',
+  active_yn CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '활동상태',
+  login_fail_count INT DEFAULT 0 NOT NULL COMMENT '로그인 실패 횟수',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시'
+) COMMENT='유저';
+
+-- ECH-45: ALTER TABLE (기존 DB 적용용)
+-- ALTER TABLE `user`
+--   MODIFY COLUMN `user_password` VARCHAR(255) NULL COMMENT '비밀번호',
+--   ADD COLUMN `social_type` ENUM('NORMAL', 'NAVER', 'KAKAO', 'GOOGLE') NOT NULL DEFAULT 'NORMAL' COMMENT '소셜 로그인 타입' AFTER `user_level`,
+--   ADD COLUMN `social_id` VARCHAR(255) NULL COMMENT '소셜 계정 ID' AFTER `social_type`,
+--   ADD COLUMN `user_name` VARCHAR(100) NULL COMMENT '사용자 이름' AFTER `social_id`,
+--   ADD COLUMN `user_age` VARCHAR(10) NULL COMMENT '사용자 연령대' AFTER `user_name`,
+--   ADD COLUMN `user_gender` ENUM('M', 'F', 'N') NULL COMMENT '사용자 성별' AFTER `user_age`;
+
+CREATE TABLE user_info (
+  info_id VARCHAR(255) NOT NULL PRIMARY KEY COMMENT 'PK',
+  user_id VARCHAR(255) NOT NULL COMMENT '유저 내부 아이디',
+  groom_name VARCHAR(100) NOT NULL COMMENT '신랑',
+  bride_name VARCHAR(100) NOT NULL COMMENT '신부',
+  wedding_date DATETIME COMMENT '결혼식 날짜',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+  UNIQUE INDEX uq__info_id__user_id (info_id, user_id) COMMENT '유저별 상세정보 유니크 인덱스',
+  INDEX idx__user_id__wedding_date (user_id, wedding_date) COMMENT '유저, 결혼날짜 인덱스'
+) COMMENT '유저 상세 정보';
+
+CREATE TABLE `base_template` (
+  template_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'PK',
+  title VARCHAR(255) NOT NULL COMMENT '템플릿 제목',
+  component ENUM('HEADER', 'TEXT', 'BUTTON', 'IMG', 'CONTENT', 'LOCATION') NOT NULL DEFAULT 'TEXT' COMMENT '템플릿 요소',
+  component_type INT NOT NULL DEFAULT 1 COMMENT '템플릿 요소 타입',
+  preview_url VARCHAR(255) NOT NULL COMMENT '템플릿 미리보기 URL',
+  is_premium CHAR(1) NOT NULL DEFAULT 'N' COMMENT '유료 여부',
+  template_schema JSON NULL COMMENT '레이아웃, 기본 스타일 정의',
+  sort_order INT DEFAULT 0 NOT NULL COMMENT '노출 순서',
+  active_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '활동상태',
+  deleted_at DATETIME NULL DEFAULT NULL COMMENT '삭제 일시',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시'
+) COMMENT='기본 템플릿 요소 정의';
+
+CREATE TABLE `post` (
+  post_id VARCHAR(255) NOT NULL PRIMARY KEY COMMENT 'PK (게시물 ID)',
+  user_id VARCHAR(255) NOT NULL COMMENT '유저 아이디',
+  active_yn CHAR(1) NOT NULL DEFAULT 'N' COMMENT '활동상태',
+  start_date DATETIME NULL COMMENT '시작 일시',
+  end_date DATETIME NULL COMMENT '종료 일시',
+  deleted_at DATETIME NULL DEFAULT NULL COMMENT '삭제 일시',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+  INDEX idx__user_id__deleted_at (user_id, deleted_at)
+) COMMENT='사용자 게시물(모바일 청첩장 등)';
+
+CREATE TABLE `post_block` (
+  post_block_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+  post_id VARCHAR(255) NOT NULL COMMENT '게시물 ID (FK)',
+  template_id INT NOT NULL COMMENT '기본 템플릿 ID (FK)',
+  sort_order INT NOT NULL DEFAULT 0 COMMENT '정렬 순서',
+  custom_schema JSON NULL COMMENT '사용자 커스텀 설정',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+  INDEX idx__post_id__sort_order (post_id, sort_order)
+) COMMENT='게시물별 커스텀 블록 구성';
+
+CREATE TABLE `post_block_image` (
+  post_block_image_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'PK',
+  post_block_id INT NOT NULL COMMENT '커스텀 블록 ID (FK)',
+  image_url VARCHAR(255) NOT NULL COMMENT '이미지 URL',
+  sort_order INT NOT NULL DEFAULT 0 COMMENT '정렬 순서',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성 일시',
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '수정 일시',
+  INDEX idx__post_block_id__sort_order (post_block_id, sort_order)
+) COMMENT='커스텀 블록별 이미지 리스트';
